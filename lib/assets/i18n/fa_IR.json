@@ -1,0 +1,22 @@
+{
+	"tr_data" : {
+		"name": "نام",
+		"surname": "نام‌خانوادگی",
+		"gender": "جنسیت",
+		"agreement": "توافق‌نامه",
+		"information_form": "فرم اطلاعات",
+		"enter_your_name": "نام خود را وارد کنید",
+		"enter_your_surname": "نام‌خانوادگی خود را وارد کنید",
+		"male": "مرد",
+		"female": "زن",
+		"agreement_state": "توافق‌نامه را می‌پذیرم",
+		"input_error": "خطای ورودی",
+		"complete_the_form": "فرم را کامل کنید",
+		"submit": "ثبت",
+		"reset": "بازنشانی",
+		"your_information": "اطلاعات شما",
+		"agreed": "توافق‌نامه را پذیرفته‌اید",
+		"didnt_agree": "توافق‌نامه را نپذیرفته‌اید"
+	}
+}
+

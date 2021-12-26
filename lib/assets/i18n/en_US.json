@@ -1,0 +1,22 @@
+{
+	"tr_data" : {
+		"name": "Name",
+		"surname": "Surname",
+		"gender": "Gender",
+		"agreement": "Agreement",
+		"information_form": "Information Form",
+		"enter_your_name": "Enter Your Name",
+		"enter_your_surname": "Enter Your Surname",
+		"male": "Male",
+		"female": "Female",
+		"agreement_state": "I agree to the terms of use",
+		"input_error": "Input Error",
+		"complete_the_form": "Complete the form first",
+		"submit": "Submit",
+		"reset": "Reset",
+		"your_information": "Your Information",
+		"agreed": "You agreed to the terms",
+		"didnt_agree": "You didn't agreed to the terms"
+	}
+	
+}
