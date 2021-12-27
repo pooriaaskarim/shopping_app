@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shopping_app/shopping_app.dart';
+import 'package:shopping_app/src/pages/shared/app_icon_wrapper.dart';
+import 'package:shopping_app/src/pages/shared/custom_circualr_progress_indicator.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
-
+  // Future Function() delay = await Future.delayed(Duration(seconds: 5), () {Get.toNamed()});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +15,9 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _appIconWrapper(),
+            const AppIcon(
+              radius: 200.0,
+            ),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -24,32 +29,15 @@ class SplashScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 50),
-                CircularProgressIndicator(
-                  backgroundColor: MaterialTheme.primaryColor[300],
-                  color: MaterialTheme.secondaryColor[500],
-                  strokeWidth: 1.5,
-                )
+                ShoppingAppCircularProgressIndicator(),
+                TextButton(
+                    autofocus: true,
+                    onPressed: () => Get.toNamed(RouteNames.loginPage),
+                    child: const Text('next'))
               ],
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _appIconWrapper() {
-    return Container(
-      width: 200.0,
-      height: 200.0,
-      decoration: BoxDecoration(
-        color: MaterialTheme.primaryColor[50],
-        shape: BoxShape.circle,
-      ),
-      child: Image.asset(
-        'lib/assets/images/app_icon.png',
-        package: 'shopping_app',
-        fit: BoxFit.scaleDown,
-        scale: 2.6,
       ),
     );
   }
