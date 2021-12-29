@@ -1,0 +1,32 @@
+{
+  "users": [
+    {
+      "name": "Pooria",
+      "surname": "Askari",
+      "username": "pooria",
+      "password": "1234",
+      "address": "adasdas",
+      "isAdmin": true,
+      "id": 1
+    },
+    {
+      "name": "Amin",
+      "surname": "Amini",
+      "username": "amini",
+      "password": "12341234",
+      "address": "abcdrfg",
+      "isAdmin": false,
+      "id": 2
+    },
+    {
+      "name": "Mohammad",
+      "surname": "Amiri",
+      "username": "amiri",
+      "password": "passwordispassword",
+      "address": "afdl;a'",
+      "isAdmin": false,
+      "id": 3
+    }
+  ],
+  "products": []
+}
