@@ -17,7 +17,7 @@ class MaterialTheme {
     600: Color(0xffdc5e00),
     700: Color(0xffc25200), //Primary Dark
     800: Color(0xff973f00),
-    900: Color(0xff5b2700),
+    900: Color(0xff271000),
   });
   static const MaterialColor secondaryColor = MaterialColor(0xff2E9E92, {
     50: Color(0xffC0D3D1), //Complementary Light
@@ -33,32 +33,33 @@ class MaterialTheme {
   });
   static const Color infoColor = Color(0xff67B9B0);
   static const Color backgroundColor = Color(0xffFFF2E9);
-  static const Color textColor = Color(0xff000000);
-  static const Color editingTextColor = Color(0xffc25200);
-  static const Color warningColor = Color(0xFFF97662);
-  static const Color liteTextColor = Color(0xFFF2E9E4);
+  static const Color textColor = Color(0xff271000);
+  static const Color editingColor = Color(0xffc25200);
   static const Color iconColor = Color(0xffc25200);
-  static const Color disabledColor = Color(0x4D707070);
+  static const Color disabledColor = Color(0xff707070);
+
+  // static const Color warningColor = Color(0xFFF97662);
+  // static const Color liteTextColor = Color(0xFFF2E9E4);
   // static const Color borderColor = Color(0xffc25200);
   // static const Color successColor = Color(0xFF57B894);
   // static const Color dangerColor = Color(0xFFD1495B);
 
   ThemeData get themeData => ThemeData(
-        primarySwatch: primaryColor,
-        canvasColor: backgroundColor,
-        scaffoldBackgroundColor: backgroundColor,
-        appBarTheme: const AppBarTheme(
-          color: Color(0x00000000),
-          elevation: 0.0,
-          iconTheme: IconThemeData(color: Color(0xffc25200), size: 24),
-        ),
+        appBarTheme: appBarTheme(),
+        backgroundColor: backgroundColor,
         bottomAppBarColor: const Color(0xffffffff),
+        canvasColor: backgroundColor,
         cardColor: const Color(0x4dc0d3d1),
         dividerColor: const Color(0xffc25200),
         disabledColor: disabledColor,
-        secondaryHeaderColor: const Color(0xffe3f2fd),
-        backgroundColor: backgroundColor,
+        elevatedButtonTheme: elevatedButtonThemeData(),
         indicatorColor: const Color(0xffc25200),
+        inputDecorationTheme: inputDecorationTheme(),
+        secondaryHeaderColor: const Color(0xffe3f2fd),
+        primarySwatch: primaryColor,
+        scaffoldBackgroundColor: backgroundColor,
+        textTheme: textTheme(),
+
         // hintColor: const Color(0x8a000000),
         // fontFamily: fontFamily,
         // brightness: Brightness.dark,
@@ -74,4 +75,62 @@ class MaterialTheme {
         // toggleableActiveColor: const Color(0xff1e88e5),
         // dialogBackgroundColor: backgroundColor,
       );
+
+  ElevatedButtonThemeData elevatedButtonThemeData() {
+    return ElevatedButtonThemeData(
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(const Color(0xffFF9F4A)),
+            fixedSize: MaterialStateProperty.all(const Size.fromHeight(48)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(40.0),
+            ))));
+  }
+
+  AppBarTheme appBarTheme() {
+    return const AppBarTheme(
+      color: Colors.transparent,
+      elevation: 0.0,
+      iconTheme: IconThemeData(color: Color(0xffc25200), size: 24),
+    );
+  }
+
+  InputDecorationTheme inputDecorationTheme() {
+    return InputDecorationTheme(
+        labelStyle: const TextStyle(color: MaterialTheme.textColor),
+        suffixIconColor: MaterialTheme.primaryColor[700],
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: MaterialTheme.editingColor),
+        ),
+        focusedErrorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: MaterialTheme.editingColor),
+        ),
+        errorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(width: 1, color: MaterialTheme.editingColor),
+        ),
+        enabledBorder: const OutlineInputBorder(
+            borderSide:
+                BorderSide(width: 1, color: MaterialTheme.editingColor)),
+        disabledBorder: const OutlineInputBorder(
+            borderSide:
+                BorderSide(width: 1, color: MaterialTheme.disabledColor)));
+  }
+
+  TextTheme textTheme() {
+    return TextTheme(
+      headline1: const TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+      headline2: const TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+      headline3: TextStyle(
+          color: primaryColor[50], fontSize: 34.0, fontWeight: FontWeight.bold),
+      headline4: TextStyle(
+          color: primaryColor[50], fontSize: 24.0, fontWeight: FontWeight.bold),
+      bodyText1: const TextStyle(fontSize: 14.0, color: editingColor),
+      bodyText2: const TextStyle(fontSize: 14.0, color: textColor),
+      // subtitle1: TextStyle(),
+      // subtitle2: TextStyle(),
+      // caption: TextStyle(),
+      // button: TextStyle(),
+      // overline: TextStyle(),
+    );
+  }
 }
