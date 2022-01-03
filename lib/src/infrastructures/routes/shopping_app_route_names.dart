@@ -5,4 +5,6 @@ class RouteNames {
   static const String adminProducts = '/admin/products';
   static const String adminAddProduct = '/admin/add_product';
   static const String adminProduct = '/admin/product';
+  static const String usersPage = '/users';
+  static const String searchPage = '/searchPage';
 }
