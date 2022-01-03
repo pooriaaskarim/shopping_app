@@ -95,6 +95,7 @@ class MaterialTheme {
       centerTitle: true,
       actionsIconTheme: IconThemeData(color: Color(0xffc25200), size: 24),
       iconTheme: IconThemeData(color: Color(0xffc25200), size: 24),
+      titleTextStyle: TextStyle(color: Color(0xffc25200)),
     );
   }
 

@@ -15,8 +15,9 @@ class AdminAddProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Add Product',
-              style: TextStyle(color: MaterialTheme.primaryColor[700])),
+          title: const Text(
+            'Add Product',
+          ),
         ),
         body: SingleChildScrollView(
           child: Form(
