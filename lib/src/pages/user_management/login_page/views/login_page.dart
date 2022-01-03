@@ -7,7 +7,7 @@ import 'package:shopping_app/src/pages/user_management/login_page/controllers/lo
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
   final formKey = GlobalKey<FormState>();
-  final controller = Get.put(LoginController());
+  final controller = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class LoginPage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
               child: Column(
                 children: [
-                  const AppIcon(radius: 300.0),
+                  const AppIcon(radius: 250.0),
                   Padding(
                     padding: EdgeInsets.all(Utils.mediumPadding),
                     child: Text(
@@ -124,7 +124,7 @@ class LoginPage extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () {
-                  //To-Do: handle controller close before navigating to signup page
+                  //TODO: handle controller close before navigating to signup page
                   Get.toNamed(RouteNames.signupPage);
                 },
                 child: const Text.rich(
