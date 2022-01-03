@@ -21,7 +21,12 @@ class SignUpPage extends StatelessWidget {
               child: Column(
                 children: [
                   Center(
-                    child: _imagePicker(context),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          // horizontal: Utils.largePadding,
+                          vertical: Utils.largePadding),
+                      child: _imagePicker(context),
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
@@ -155,15 +160,15 @@ class SignUpPage extends StatelessWidget {
         controller.userImageHandler.imagePicker(context);
       },
       child: Obx(() => CircleAvatar(
-            radius: 85,
+            radius: 120,
             backgroundColor: MaterialTheme.primaryColor[300],
             child: controller.userImageHandler.imageFile.value != null
                 ? ClipRRect(
-                    borderRadius: BorderRadius.circular(80),
+                    borderRadius: BorderRadius.circular(120),
                     child: Image.file(
                       controller.userImageHandler.imageFile.value!,
-                      width: 150,
-                      height: 150,
+                      width: 235,
+                      height: 235,
                       fit: BoxFit.fitWidth,
                     ),
                   )
@@ -171,9 +176,9 @@ class SignUpPage extends StatelessWidget {
                     decoration: BoxDecoration(
                         color:
                             MaterialTheme.secondaryColor[100]?.withOpacity(0.8),
-                        borderRadius: BorderRadius.circular(80)),
-                    width: 150,
-                    height: 150,
+                        borderRadius: BorderRadius.circular(125)),
+                    width: 235,
+                    height: 235,
                     child: Icon(
                       Icons.camera_alt,
                       color: MaterialTheme.primaryColor[300],
