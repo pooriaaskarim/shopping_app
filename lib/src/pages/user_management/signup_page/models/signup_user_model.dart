@@ -1,8 +1,15 @@
-import 'package:shopping_app/src/pages/user_management/shared/models/user_model.dart';
+import 'package:shopping_app/src/pages/shared/models/user/user_model.dart';
 
 class SignUpUserModel extends UserModel {
-  SignUpUserModel(int id, String name, String surname, String username,
-      String password, String address, {required bool isAdmin})
+  SignUpUserModel(
+      {required id,
+      required String name,
+      required String surname,
+      required String username,
+      required String password,
+      required String address,
+      required int imageId,
+      required bool isAdmin})
       : super(
             id: id,
             name: name,
@@ -10,7 +17,8 @@ class SignUpUserModel extends UserModel {
             username: username,
             password: password,
             address: address,
-            isAdmin: false);
+            imageId: imageId,
+            isAdmin: isAdmin);
 
   SignUpUserModel.fromJsonMap(Map<String, dynamic> jsonMap)
       : super(
@@ -20,6 +28,7 @@ class SignUpUserModel extends UserModel {
             username: jsonMap['username'],
             password: jsonMap['password'],
             address: jsonMap['address'],
+            imageId: jsonMap['imageId'],
             isAdmin: jsonMap['isAdmin']);
 
 // @override
