@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_app/shopping_app.dart';
 
 class AppIcon extends StatelessWidget {
   final double radius;
@@ -22,7 +21,7 @@ class AppIcon extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: Padding(
-        padding: EdgeInsets.all(Utils.largePadding),
+        padding: const EdgeInsets.all(17.0),
         child: Image.asset(
           'lib/assets/images/app_icon.png',
           package: 'shopping_app',
