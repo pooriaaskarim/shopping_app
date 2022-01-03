@@ -1,5 +1,5 @@
 abstract class UserModel {
-  int id;
+  int id, imageId;
   String name, surname, username, password, address;
   bool isAdmin;
 
@@ -10,5 +10,6 @@ abstract class UserModel {
       required this.username,
       required this.password,
       required this.address,
+      required this.imageId,
       required this.isAdmin});
 }
