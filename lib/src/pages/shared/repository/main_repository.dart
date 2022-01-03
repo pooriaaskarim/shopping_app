@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
-String baseUrl = '127.0.0.1:3000';
+// // String baseUrl = '127.0.0.1:3000';
+// String baseUrl = '10.0.2.2:3000';
 
-//static String baseUrl = '10.0.2.2:3000';
 class Client {
   Future<Either<Exception, Response>> dioGet(String url) async {
     try {
@@ -73,16 +73,20 @@ class Client {
       (response.statusCode! >= 200) && (response.statusCode! < 300);
 }
 
-// void main() async {
-//   var client = Client();
-//   Map<String, dynamic> m = {
-//     'name': 'Pooria',
-//     'surname': 'Askari',
-//     'username': 'pooria',
-//     'password': '1234',
-//     'address': 'adasdas',
-//     'isAdmin': true
-//   };
-//   // await client.dioPost('http://127.0.0.1:3000/users', m);
-//   await client.dioDelete('http://127.0.0.1:3000/users/5');
-// }
+void main() async {
+  var client = Client();
+  // Map<String, dynamic> m = {
+  //   'name': 'Pooria',
+  //   'surname': 'Askari',
+  //   'username': 'pooria',
+  //   'password': '1234',
+  //   'address': 'adasdas',
+  //   'isAdmin': true
+  // };
+  // await client.dioPost('http://127.0.0.1:3000/users', m);
+  // await client.dioDelete('http://127.0.0.1:3000/product_images/5');
+  // await client.dioDelete('http://127.0.0.1:3000/product_images/7');
+  // await client.dioDelete('http://127.0.0.1:3000/product_images/8');
+  await client.dioDelete('http://127.0.0.1:3000/product_images/2');
+  await client.dioDelete('http://127.0.0.1:3000/products/2');
+}
