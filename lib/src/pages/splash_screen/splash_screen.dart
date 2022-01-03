@@ -35,7 +35,7 @@ class SplashScreen extends StatelessWidget {
             ),
             TextButton(
                 autofocus: true,
-                onPressed: () => Get.toNamed(RouteNames.loginPage),
+                onPressed: () => Get.offAndToNamed(RouteNames.loginPage),
                 child: Text(
                   'next',
                   style: Theme.of(context).textTheme.bodyText1,
