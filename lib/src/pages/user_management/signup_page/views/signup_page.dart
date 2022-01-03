@@ -6,7 +6,7 @@ import 'package:shopping_app/src/pages/user_management/signup_page/controllers/s
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);
   final formKey = GlobalKey<FormState>();
-  final controller = Get.put(SignUpController());
+  final controller = Get.find<SignUpController>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +20,13 @@ class SignUpPage extends StatelessWidget {
               padding: EdgeInsets.all(Utils.largePadding),
               child: Column(
                 children: [
+                  Center(
+                    child: _imagePicker(context),
+                  ),
                   Padding(
-                    padding: EdgeInsets.all(Utils.largePadding),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Utils.largePadding,
+                        vertical: Utils.smallPadding),
                     child: TextFormField(
                       autofocus: true,
                       decoration: const InputDecoration(
@@ -33,7 +38,9 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(Utils.largePadding),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Utils.largePadding,
+                        vertical: Utils.smallPadding),
                     child: TextFormField(
                       decoration: const InputDecoration(
                         hintText: 'Enter your surname',
@@ -44,7 +51,9 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(Utils.largePadding),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Utils.largePadding,
+                        vertical: Utils.smallPadding),
                     child: TextFormField(
                       decoration: const InputDecoration(
                           hintText: 'Enter your username',
@@ -56,7 +65,9 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(Utils.largePadding),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Utils.largePadding,
+                        vertical: Utils.smallPadding),
                     child: Obx(() => TextFormField(
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
@@ -76,27 +87,34 @@ class SignUpPage extends StatelessWidget {
                         )),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(Utils.largePadding),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Utils.largePadding,
+                        vertical: Utils.smallPadding),
                     child: Obx(() => TextFormField(
                           decoration: InputDecoration(
                             suffixIcon: IconButton(
-                              icon: controller.passwordIsVisible[0]['icon'],
+                              icon: controller.retypePasswordIsVisible[0]
+                                  ['icon'],
                               onPressed: () {
-                                controller.passwordIsVisible.add(
-                                    controller.passwordIsVisible.removeAt(0));
+                                controller.retypePasswordIsVisible.add(
+                                    controller.retypePasswordIsVisible
+                                        .removeAt(0));
                               },
                             ),
                             hintText: 'Enter your password again',
                             labelText: 'Re-type Password',
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          obscureText: controller.passwordIsVisible[0]['value'],
+                          obscureText: controller.retypePasswordIsVisible[0]
+                              ['value'],
                           controller: controller.retypePasswordController,
                           validator: controller.retypePasswordValidator,
                         )),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(Utils.largePadding),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Utils.largePadding,
+                        vertical: Utils.smallPadding),
                     child: TextFormField(
                       minLines: 4,
                       maxLines: 5,
@@ -109,11 +127,14 @@ class SignUpPage extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(Utils.largePadding),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: Utils.largePadding,
+                        vertical: Utils.smallPadding),
                     child: ElevatedButton(
                         onPressed: () {
-                          if (formKey.currentState!.validate()) {}
-                          controller.signUp();
+                          if (formKey.currentState!.validate()) {
+                            controller.signUp();
+                          }
                         },
                         child: Text(
                           'Sign Me Up',
@@ -126,5 +147,39 @@ class SignUpPage extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  GestureDetector _imagePicker(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        controller.userImageHandler.imagePicker(context);
+      },
+      child: Obx(() => CircleAvatar(
+            radius: 85,
+            backgroundColor: MaterialTheme.primaryColor[300],
+            child: controller.userImageHandler.imageFile.value != null
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(80),
+                    child: Image.file(
+                      controller.userImageHandler.imageFile.value!,
+                      width: 150,
+                      height: 150,
+                      fit: BoxFit.fitWidth,
+                    ),
+                  )
+                : Container(
+                    decoration: BoxDecoration(
+                        color:
+                            MaterialTheme.secondaryColor[100]?.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(80)),
+                    width: 150,
+                    height: 150,
+                    child: Icon(
+                      Icons.camera_alt,
+                      color: MaterialTheme.primaryColor[300],
+                    ),
+                  ),
+          )),
+    );
   }
 }
