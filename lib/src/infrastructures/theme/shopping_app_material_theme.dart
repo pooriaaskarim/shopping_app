@@ -37,6 +37,8 @@ class MaterialTheme {
   static const Color editingColor = Color(0xffc25200);
   static const Color iconColor = Color(0xffc25200);
   static const Color disabledColor = Color(0xff707070);
+  static const Color disabledCardColor = Color(0x4D707070);
+  static const Color enabledCardColor = Color(0x4dc0d3d1);
 
   // static const Color warningColor = Color(0xFFF97662);
   // static const Color liteTextColor = Color(0xFFF2E9E4);
@@ -59,7 +61,6 @@ class MaterialTheme {
         primarySwatch: primaryColor,
         scaffoldBackgroundColor: backgroundColor,
         textTheme: textTheme(),
-
         // hintColor: const Color(0x8a000000),
         // fontFamily: fontFamily,
         // brightness: Brightness.dark,
@@ -91,6 +92,8 @@ class MaterialTheme {
     return const AppBarTheme(
       color: Colors.transparent,
       elevation: 0.0,
+      centerTitle: true,
+      actionsIconTheme: IconThemeData(color: Color(0xffc25200), size: 24),
       iconTheme: IconThemeData(color: Color(0xffc25200), size: 24),
     );
   }
@@ -124,6 +127,14 @@ class MaterialTheme {
           color: primaryColor[50], fontSize: 34.0, fontWeight: FontWeight.bold),
       headline4: TextStyle(
           color: primaryColor[50], fontSize: 24.0, fontWeight: FontWeight.bold),
+      headline5: TextStyle(
+          color: primaryColor[700],
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold),
+      headline6: TextStyle(
+          color: primaryColor[700],
+          fontSize: 14.0,
+          fontWeight: FontWeight.bold),
       bodyText1: const TextStyle(fontSize: 14.0, color: editingColor),
       bodyText2: const TextStyle(fontSize: 14.0, color: textColor),
       // subtitle1: TextStyle(),
