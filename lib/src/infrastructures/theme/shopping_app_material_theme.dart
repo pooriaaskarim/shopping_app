@@ -39,7 +39,6 @@ class MaterialTheme {
   static const Color disabledColor = Color(0xff707070);
   static const Color disabledCardColor = Color(0x4D707070);
   static const Color enabledCardColor = Color(0x4dc0d3d1);
-
   // static const Color warningColor = Color(0xFFF97662);
   // static const Color liteTextColor = Color(0xFFF2E9E4);
   // static const Color borderColor = Color(0xffc25200);
@@ -51,7 +50,7 @@ class MaterialTheme {
         backgroundColor: backgroundColor,
         bottomAppBarColor: const Color(0xffffffff),
         canvasColor: backgroundColor,
-        cardColor: const Color(0x4dc0d3d1),
+        cardTheme: const CardTheme(color: Color(0x4dc0d3d1)),
         dividerColor: const Color(0xffc25200),
         disabledColor: disabledColor,
         elevatedButtonTheme: elevatedButtonThemeData(),
