@@ -11,7 +11,7 @@ class AdminAddProductTagDTO extends TagDTO {
 
   factory AdminAddProductTagDTO.fromMap(Map<String, dynamic> map) {
     return AdminAddProductTagDTO(
-      tag: map['tag'] as String,
+      tag: map['tag'],
     );
   }
 }

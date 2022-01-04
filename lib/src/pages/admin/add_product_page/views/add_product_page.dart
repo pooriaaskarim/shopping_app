@@ -27,7 +27,10 @@ class AdminAddProductPage extends StatelessWidget {
               child: Column(
                 children: [
                   Center(
-                    child: _imagePicker(context),
+                    child: Padding(
+                      padding: EdgeInsets.all(Utils.largePadding),
+                      child: _imagePicker(context),
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
@@ -108,44 +111,103 @@ class AdminAddProductPage extends StatelessWidget {
                         child: Row(
                           children: [
                             for (var item in controller.productTags)
-                              Chip(
-                                backgroundColor:
-                                    MaterialTheme.secondaryColor[300],
-                                deleteIconColor:
-                                    MaterialTheme.secondaryColor[700],
-                                visualDensity: VisualDensity.compact,
-                                deleteIcon: const Icon(Icons.clear),
-                                onDeleted: () =>
-                                    controller.productTags.remove(item),
-                                deleteButtonTooltipMessage:
-                                    'Delete tag from server!',
-                                useDeleteButtonTooltip: true,
-                                label: Text(
-                                  item,
-                                  style: TextStyle(
-                                      color: MaterialTheme.primaryColor[50]),
-                                ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Utils.tinyPadding),
+                                child: Container(
+                                    padding: EdgeInsets.all(Utils.tinyPadding),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color:
+                                            MaterialTheme.secondaryColor[300]),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: Utils.tinyPadding),
+                                          child: SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child: IconButton(
+                                              color: MaterialTheme
+                                                  .secondaryColor[700],
+                                              padding: EdgeInsets.zero,
+                                              visualDensity:
+                                                  VisualDensity.compact,
+                                              // padding: EdgeInsets.all(
+                                              //     Utils.tinyPadding),
+                                              tooltip: 'Pop Tag',
+                                              iconSize: 20,
+                                              icon: const Icon(Icons.clear),
+                                              onPressed: () => controller
+                                                  .productTags
+                                                  .remove(item),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: Utils.tinyPadding),
+                                          child: Text(
+                                            item,
+                                            style: TextStyle(
+                                                color: MaterialTheme
+                                                    .primaryColor[50]),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
                               )
                           ],
                         ),
                       ),
                     );
                   }),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Utils.largePadding,
-                        vertical: Utils.smallPadding),
-                    child: ElevatedButton(
+                  Obx(() => Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Checkbox(
+                              value: controller.isEnabled.value,
+                              onChanged: (value) {
+                                controller.isEnabled.value = value!;
+                              }),
+                          Text((controller.isEnabled.value)
+                              ? 'Product Enabled'
+                              : 'Product Disabled')
+                        ],
+                      )),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        iconSize: 30,
+                        color: MaterialTheme.primaryColor[700],
+                        icon: const Icon(
+                          Icons.clear,
+                        ),
                         onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            controller.addProduct();
-                          }
+                          formKey.currentState!.reset();
+                          controller.productTags.clear();
                         },
-                        child: Text(
-                          'Add Product',
-                          style:
-                              TextStyle(color: MaterialTheme.primaryColor[50]),
-                        )),
+                      ),
+                      IconButton(
+                          padding: EdgeInsets.zero,
+                          iconSize: 30,
+                          color: MaterialTheme.primaryColor[700],
+                          icon: const Icon(
+                            Icons.check,
+                          ),
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              controller.addProduct();
+                            }
+                          })
+                    ],
                   ),
                 ],
               ),
@@ -201,12 +263,13 @@ class AdminAddProductPage extends StatelessWidget {
           alignment: Alignment.topLeft,
           child: Material(
             type: MaterialType.canvas,
-            child: SizedBox(
+            child: Container(
+              color: MaterialTheme.primaryColor[50],
               width: 300,
               height: 100,
               child: ListView.builder(
                 padding: EdgeInsets.zero,
-                shrinkWrap: true,
+                // shrinkWrap: true,
                 itemCount: options.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
@@ -239,75 +302,50 @@ class AdminAddProductPage extends StatelessWidget {
   }
 
   Widget _imagePicker(BuildContext context) {
-    return Obx(() => Padding(
-          padding: EdgeInsets.all(Utils.largePadding),
-          child: Container(
-            height: MediaQuery.of(Get.context!).size.width,
-            width: MediaQuery.of(Get.context!).size.width,
-            decoration: BoxDecoration(
-                color: MaterialTheme.primaryColor[300],
-                borderRadius: BorderRadius.circular(13)),
-            child: Stack(
-              fit: StackFit.passthrough,
-              children: [
-                controller.productImagerHandler.imageFile.value != null
-                    ? GestureDetector(
-                        onTap: () {
-                          controller.productImagerHandler.imagePicker(context);
-                        },
-                        child: Container(
-                          clipBehavior: Clip.antiAlias,
-                          padding: EdgeInsets.all(Utils.tinyPadding),
-                          decoration: BoxDecoration(
-                              color: MaterialTheme.primaryColor[300],
-                              borderRadius: BorderRadius.circular(13)),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(13),
-                            child: Image.file(
-                              controller.productImagerHandler.imageFile.value!,
-                              fit: BoxFit.fitWidth,
-                            ),
+    return Obx(() => Container(
+          height: MediaQuery.of(Get.context!).size.width,
+          width: MediaQuery.of(Get.context!).size.width,
+          decoration: BoxDecoration(
+              color: MaterialTheme.primaryColor[300],
+              borderRadius: BorderRadius.circular(13)),
+          child: Stack(
+            fit: StackFit.passthrough,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  controller.productImagerHandler.imagePicker(context);
+                },
+                child: controller.productImagerHandler.imageFile.value != null
+                    ? Container(
+                        clipBehavior: Clip.antiAlias,
+                        padding: EdgeInsets.all(Utils.tinyPadding),
+                        decoration: BoxDecoration(
+                            color: MaterialTheme.primaryColor[300],
+                            borderRadius: BorderRadius.circular(13)),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(13),
+                          child: Image.file(
+                            controller.productImagerHandler.imageFile.value!,
+                            fit: BoxFit.fitWidth,
                           ),
                         ),
                       )
-                    : GestureDetector(
-                        onTap: () {
-                          controller.productImagerHandler.imagePicker(context);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: MaterialTheme.primaryColor[300]
-                                  ?.withOpacity(0.8),
-                              borderRadius: BorderRadius.circular(13)),
-                          width: 150,
-                          height: 150,
-                        ),
+                    : Container(
+                        decoration: BoxDecoration(
+                            color: MaterialTheme.primaryColor[300]
+                                ?.withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(13)),
+                        width: 150,
+                        height: 150,
                       ),
-                Padding(
-                  padding: EdgeInsets.all(Utils.largePadding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      if (controller.productImagerHandler.imageFile.value !=
-                          null)
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: MaterialTheme.primaryColor[300]!
-                                  .withOpacity(.5)),
-                          child: IconButton(
-                            iconSize: 20,
-                            icon: Icon(
-                              Icons.delete,
-                              color: MaterialTheme.primaryColor[700],
-                            ),
-                            onPressed: () {
-                              controller.productImagerHandler.imageFile.value =
-                                  null;
-                            },
-                          ),
-                        ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(Utils.largePadding),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (controller.productImagerHandler.imageFile.value != null)
                       Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50),
@@ -315,21 +353,36 @@ class AdminAddProductPage extends StatelessWidget {
                                 .withOpacity(.5)),
                         child: IconButton(
                           iconSize: 20,
-                          icon: Icon(
-                            Icons.camera_alt,
-                            color: MaterialTheme.primaryColor[700],
+                          color: MaterialTheme.primaryColor[700],
+                          icon: const Icon(
+                            Icons.delete,
                           ),
                           onPressed: () {
-                            controller.productImagerHandler
-                                .imagePicker(context);
+                            controller.productImagerHandler.imageFile.value =
+                                null;
                           },
                         ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
+                      ),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color:
+                              MaterialTheme.primaryColor[300]!.withOpacity(.5)),
+                      child: IconButton(
+                        iconSize: 20,
+                        color: MaterialTheme.primaryColor[700],
+                        icon: const Icon(
+                          Icons.camera_alt,
+                        ),
+                        onPressed: () {
+                          controller.productImagerHandler.imagePicker(context);
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
         ));
   }

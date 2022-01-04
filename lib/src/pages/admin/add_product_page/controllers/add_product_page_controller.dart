@@ -12,12 +12,12 @@ import 'package:shopping_app/src/pages/shared/image_handler.dart';
 class AddProductController extends GetxController {
   final client = AddProductClient();
   TextEditingController nameController = TextEditingController();
+  TextEditingController inStockController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController tagController = TextEditingController();
-  TextEditingController inStockController = TextEditingController();
   ImageHandler productImagerHandler = ImageHandler();
-  bool isEnabled = true;
+  RxBool isEnabled = true.obs;
   RxList<AdminAddProductTagModel> tags = <AdminAddProductTagModel>[].obs;
   RxSet<String> productTags = <String>{}.obs;
 
@@ -70,6 +70,10 @@ class AddProductController extends GetxController {
     int _imageID = 0;
     if (productImagerHandler.imageFile.value != null) {
       _imageID = await uploadImage();
+    } else {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          const SnackBar(content: Text('Products must have a picture.')));
+      throw Exception('Product Image empty');
     }
 
     var dto = AdminAddProductDTO(
@@ -79,7 +83,7 @@ class AddProductController extends GetxController {
         tags: productTags.toList(),
         inStock: int.parse(inStockController.text),
         imageID: _imageID,
-        isEnabled: isEnabled);
+        isEnabled: isEnabled.value);
     zResponse = await client.addProduct(dto);
     zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!)
