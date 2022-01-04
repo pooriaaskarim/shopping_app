@@ -1,6 +1,6 @@
 abstract class UserDTO {
   String name, surname, username, password, address;
-  int imageId;
+  int imageID;
   bool isAdmin;
 
   UserDTO(
@@ -9,6 +9,6 @@ abstract class UserDTO {
       required this.username,
       required this.password,
       required this.address,
-      required this.imageId,
+      required this.imageID,
       this.isAdmin = false});
 }

@@ -84,9 +84,7 @@ void main() async {
   //   'isAdmin': true
   // };
   // await client.dioPost('http://127.0.0.1:3000/users', m);
-  // await client.dioDelete('http://127.0.0.1:3000/product_images/5');
-  // await client.dioDelete('http://127.0.0.1:3000/product_images/7');
-  // await client.dioDelete('http://127.0.0.1:3000/product_images/8');
   await client.dioDelete('http://127.0.0.1:3000/product_images/2');
-  await client.dioDelete('http://127.0.0.1:3000/products/2');
+  await client.dioDelete('http://127.0.0.1:3000/product_images/3');
+  await client.dioDelete('http://127.0.0.1:3000/product_images/4');
 }
