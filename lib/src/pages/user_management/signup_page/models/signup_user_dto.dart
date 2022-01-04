@@ -7,7 +7,7 @@ class SignUpUserDTO extends UserDTO {
     required String username,
     required String password,
     required String address,
-    required int imageId,
+    required int imageID,
     required bool isAdmin,
   }) : super(
             name: name,
@@ -15,7 +15,7 @@ class SignUpUserDTO extends UserDTO {
             username: username,
             password: password,
             address: address,
-            imageId: imageId,
+            imageID: imageID,
             isAdmin: isAdmin);
 
   Map<String, dynamic> toMap() {
@@ -25,7 +25,7 @@ class SignUpUserDTO extends UserDTO {
       'username': username,
       'password': password,
       'address': address,
-      'imageId': imageId,
+      'imageID': imageID,
       'isAdmin': isAdmin
     };
   }

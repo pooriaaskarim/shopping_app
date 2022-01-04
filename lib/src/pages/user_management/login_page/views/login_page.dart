@@ -75,8 +75,8 @@ class LoginPage extends StatelessWidget {
                               .add(controller.passwordIsVisible.removeAt(0));
                         },
                       ),
-                      hintText: 'Enter your password again',
-                      labelText: 'Re-type Password',
+                      hintText: 'Enter your password',
+                      labelText: 'Password',
                     ),
                     obscureText: controller.passwordIsVisible[0]['value'],
                     controller: controller.passwordController,

@@ -13,7 +13,7 @@ class UsersModel {
         username: jsonMap['username'],
         password: jsonMap['password'],
         address: jsonMap['address'],
-        imageId: jsonMap['imageId'],
+        imageID: jsonMap['imageID'],
         isAdmin: jsonMap['isAdmin']));
   }
 }
@@ -26,7 +26,7 @@ class User extends UserModel {
       required String username,
       required String password,
       required String address,
-      required int imageId,
+      required int imageID,
       required bool isAdmin})
       : super(
             id: id,
@@ -35,7 +35,7 @@ class User extends UserModel {
             username: username,
             password: password,
             address: address,
-            imageId: imageId,
+            imageID: imageID,
             isAdmin: isAdmin);
 
   User.fromJsonMap(Map<String, dynamic> jsonMap)
@@ -46,6 +46,6 @@ class User extends UserModel {
             username: jsonMap['username'],
             password: jsonMap['password'],
             address: jsonMap['address'],
-            imageId: jsonMap['imageId'],
+            imageID: jsonMap['imageID'],
             isAdmin: jsonMap['isAdmin']);
 }

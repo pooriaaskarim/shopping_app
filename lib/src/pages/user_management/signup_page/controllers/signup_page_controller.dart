@@ -69,7 +69,7 @@ class SignUpController extends GetxController {
         username: usernameController.text,
         password: passwordController.text,
         address: addressController.text,
-        imageId: _imageID,
+        imageID: _imageID,
         isAdmin: _isAdmin);
     Either<Exception, dio.Response> zResponse = await client.signUserUp(dto);
     zResponse.fold((exception) {
