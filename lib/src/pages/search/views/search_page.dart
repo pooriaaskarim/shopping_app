@@ -12,7 +12,7 @@ class SearchPage extends StatelessWidget {
         appBar: AppBar(
           actions: [TextFormField()],
         ),
-        body: SingleChildScrollView(
+        body: const SingleChildScrollView(
             // child:
             ));
   }
