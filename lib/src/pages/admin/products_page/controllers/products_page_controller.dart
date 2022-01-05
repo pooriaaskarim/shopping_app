@@ -46,7 +46,7 @@ class AdminProductsController extends GetxController {
   }
 
 //Fetch product and product images from server
-  Future getProducts({bool refresh: false}) async {
+  Future getProducts({bool refresh = false}) async {
     if (refresh) {
       productsList.clear();
       productImagesList.clear();

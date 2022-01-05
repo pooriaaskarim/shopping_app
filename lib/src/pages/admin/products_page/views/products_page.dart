@@ -73,22 +73,21 @@ class AdminProductsPage extends StatelessWidget {
               ? MaterialTheme.enabledCardColor
               : MaterialTheme.disabledCardColor,
           borderRadius: BorderRadius.circular(13)),
-      child: Expanded(
-        flex: 1,
-        child: Row(
-          children: [
-            Container(
-              height: 200,
-              width: 200,
+      child: Row(
+        children: [
+          Container(
+            height: 200,
+            width: 200,
+            padding: EdgeInsets.all(Utils.tinyPadding),
+            decoration: BoxDecoration(
+                color: MaterialTheme.primaryColor[300],
+                borderRadius: BorderRadius.circular(13)),
+            child: _productImage(index),
+          ),
+          Expanded(
+            child: Padding(
               padding: EdgeInsets.all(Utils.tinyPadding),
-              decoration: BoxDecoration(
-                  color: MaterialTheme.primaryColor[300],
-                  borderRadius: BorderRadius.circular(13)),
-              child: _productImage(index),
-            ),
-            Padding(
-              padding: EdgeInsets.all(Utils.tinyPadding),
-              child: Container(
+              child: SizedBox(
                 height: 200,
                 // width: 100,
                 child: Column(
@@ -135,9 +134,9 @@ class AdminProductsPage extends StatelessWidget {
                   ],
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
