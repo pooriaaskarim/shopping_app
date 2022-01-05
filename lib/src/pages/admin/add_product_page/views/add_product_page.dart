@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -224,37 +225,49 @@ class AdminAddProductPage extends StatelessWidget {
         if (v.text.isEmpty) {
           return [];
         }
-        return controller.tags.where((suggestedTagModel) => suggestedTagModel
-            .tag
-            .toLowerCase()
-            .startsWith(v.text.toLowerCase()));
+        return controller.tags.where((suggestedTagModel) =>
+            suggestedTagModel.tag.toLowerCase().contains(v.text.toLowerCase()));
         // .contains(v.text));
       },
       fieldViewBuilder: (BuildContext context, tagController, focusNode,
           VoidCallback onFieldSubmitted) {
-        return TextFormField(
-          decoration: InputDecoration(
-              hintText: 'tag1, tag2,', //ToDo:change hint text
-              labelText: 'Tags',
-              suffixIcon: tagController.text.isNotEmpty
-                  ? IconButton(
-                      onPressed: () {
-                        if (tagController.text.isNotEmpty) {
-                          controller.addTag(tagController.text);
+        return ValueBuilder<String?>(
+            initialValue: tagController.text,
+            builder: (String? snapshot, Function(String?) updater) {
+              return TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Product Tags', //ToDo:change hint text
+                  labelText: 'Tags',
+                  suffixIcon: IconButton(
+                      color: Color(snapshot!.isEmpty ? 0xff707070 : 0xffc25200),
+                      onPressed: () async {
+                        if (snapshot!.isNotEmpty) {
+                          AdminAddProductTagModel tag =
+                              await controller.addTag(tagController.text);
+                          ScaffoldMessenger.of(Get.context!)
+                              .showSnackBar(SnackBar(
+                                  content: Text('Tag ${tag.tag} Added.'),
+                                  action: SnackBarAction(
+                                      label: 'Undo',
+                                      onPressed: () {
+                                        controller.deleteTag(tag.id);
+                                      })));
                           controller.refresh();
                           tagController.clear();
+                          updater(tagController.text);
                         }
                       },
-                      icon: const Icon(Icons.add))
-                  : const Icon(
-                      Icons.add,
-                      color: Colors.grey,
-                    )),
-          focusNode: focusNode,
-          // onFieldSubmitted: (_) => onFieldSubmitted,
-          controller: tagController,
-          validator: controller.tagsValidator,
-        );
+                      icon: const Icon(Icons.add)),
+                ),
+                onChanged: (value) {
+                  updater(value);
+                },
+                focusNode: focusNode,
+                // onFieldSubmitted: (_) => onFieldSubmitted,
+                controller: tagController,
+                validator: controller.tagsValidator,
+              );
+            });
       },
       optionsViewBuilder: (BuildContext context,
           AutocompleteOnSelected<AdminAddProductTagModel> onSelected,
@@ -264,9 +277,9 @@ class AdminAddProductPage extends StatelessWidget {
           child: Material(
             type: MaterialType.canvas,
             child: Container(
-              color: MaterialTheme.primaryColor[50],
-              width: 300,
-              height: 100,
+              color: MaterialTheme.primaryColor[300],
+              constraints: const BoxConstraints(
+                  maxWidth: 300, minHeight: 50, maxHeight: 125),
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 // shrinkWrap: true,
@@ -281,8 +294,28 @@ class AdminAddProductPage extends StatelessWidget {
                     ),
                     trailing: IconButton(
                       onPressed: () {
-                        controller.deleteTag(options.elementAt(index).id);
-                        controller.refresh();
+                        showDialog(
+                            context: Get.context!,
+                            builder: (context) => AlertDialog(
+                                  title: const Text('Confirm Delete'),
+                                  content: const Text('Delete tag?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      autofocus: true,
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('No'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        controller.deleteTag(
+                                            options.elementAt(index).id);
+                                        controller.refresh();
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Yes'),
+                                    ),
+                                  ],
+                                ));
                       },
                       icon: const Icon(Icons.delete),
                     ),

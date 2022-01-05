@@ -21,25 +21,32 @@ class AddProductController extends GetxController {
   RxList<AdminAddProductTagModel> tags = <AdminAddProductTagModel>[].obs;
   RxSet<String> productTags = <String>{}.obs;
 
-  Future addTag(String tag) async {
+  Future<AdminAddProductTagModel> addTag(String tag) async {
     if (tags.map((e) => e.tag).toList().contains(tag)) {
-      return;
+      ScaffoldMessenger.of(Get.context!)
+          .showSnackBar(SnackBar(content: Text('tag $tag already exists.')));
+      throw Exception('Failed to add tag $tag: tag already exists.');
     }
     Either<Exception, dio.Response> zResponse =
         await client.addTag(AdminAddProductTagDTO(tag: tag));
     return zResponse.fold((exception) {
-      throw Exception(exception);
+      ScaffoldMessenger.of(Get.context!)
+          .showSnackBar(const SnackBar(content: Text('Connection Error')));
+      throw Exception('Failed to add tag $tag: Connection Error: $exception');
     }, (response) {
-      return Right(AdminAddProductTagModel.fromMap(response.data[0]));
+      return AdminAddProductTagModel.fromMap(response.data);
     });
   }
 
-  Future deleteTag(int id) async {
+  Future<dio.Response> deleteTag(int id) async {
     Either<Exception, dio.Response> zResponse = await client.deleteTag(id);
     return zResponse.fold((exception) {
-      return Left(Exception(exception));
+      ScaffoldMessenger.of(Get.context!)
+          .showSnackBar(const SnackBar(content: Text('Connection Error')));
+      throw Left(
+          Exception('tag deletion failed: Connection Error: $exception'));
     }, (response) {
-      return Right(AdminAddProductTagModel.fromMap(response.data[0]));
+      return response;
     });
   }
 
@@ -47,7 +54,7 @@ class AddProductController extends GetxController {
     Either<Exception, List<AdminAddProductTagModel>> zResponse =
         await client.getTagsList();
     return zResponse.fold((exception) {
-      throw Exception(exception);
+      throw Exception(exception); //TODO: Handle tags retrieval failure
     }, (list) {
       return list;
     });
@@ -59,7 +66,10 @@ class AddProductController extends GetxController {
         image: productImagerHandler.imageFile.value!.readAsBytesSync());
     zResponse = await client.uploadImage(dto);
     return zResponse.fold((exception) {
-      throw Exception(exception); //TODO: handle Error
+      ScaffoldMessenger.of(Get.context!)
+          .showSnackBar(const SnackBar(content: Text('Connection Error')));
+      throw Left(
+          Exception('Failed to add Image: Connection Error: $exception'));
     }, (response) {
       return response.data['id'];
     });
