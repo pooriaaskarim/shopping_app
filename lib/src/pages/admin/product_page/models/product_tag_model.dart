@@ -12,8 +12,8 @@ class AdminProductTagModel extends TagModel {
 
   factory AdminProductTagModel.fromMap(Map<String, dynamic> map) {
     return AdminProductTagModel(
-      id: map['id'] as int,
-      tag: map['tag'] as String,
+      id: map['id'],
+      tag: map['tag'],
     );
   }
 }

@@ -1,14 +1,14 @@
 import 'package:shopping_app/src/pages/shared/models/user/user_model.dart';
 
-class AdminUser extends UserModel {
-  AdminUser(
+class AdminUserModel extends UserModel {
+  AdminUserModel(
       {required int id,
       required String name,
       required String surname,
       required String username,
       required String password,
       required String address,
-      required int imageId,
+      required int imageID,
       required bool isAdmin})
       : super(
             id: id,
@@ -17,10 +17,10 @@ class AdminUser extends UserModel {
             username: username,
             password: password,
             address: address,
-            imageId: imageId,
+            imageID: imageID,
             isAdmin: isAdmin);
 
-  AdminUser.fromJsonMap(Map<String, dynamic> jsonMap)
+  AdminUserModel.fromJsonMap(Map<String, dynamic> jsonMap)
       : super(
             id: jsonMap['id'],
             name: jsonMap['name'],
@@ -28,6 +28,6 @@ class AdminUser extends UserModel {
             username: jsonMap['username'],
             password: jsonMap['password'],
             address: jsonMap['address'],
-            imageId: jsonMap['imageId'],
+            imageID: jsonMap['imageID'],
             isAdmin: jsonMap['isAdmin']);
 }

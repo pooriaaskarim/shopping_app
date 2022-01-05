@@ -32,13 +32,13 @@ class AdminProductDTO extends ProductDTO {
 
   factory AdminProductDTO.fromMap(Map<String, dynamic> map) {
     return AdminProductDTO(
-      name: map['name'] as String,
-      description: map['description'] as String,
-      price: map['price'] as String,
-      tags: map['tags'] as List<String>,
-      inStock: map['inStock'] as int,
-      imageID: map['imageID'] as int,
-      isEnabled: map['isEnabled'] as bool,
+      name: map['name'],
+      description: map['description'],
+      price: map['price'],
+      tags: map['tags'].cast<String>(),
+      inStock: map['inStock'],
+      imageID: map['imageID'],
+      isEnabled: map['isEnabled'],
     );
   }
 }
