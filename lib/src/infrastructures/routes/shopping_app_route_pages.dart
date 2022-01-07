@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/commons/add_product_bindings.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/views/add_product_page.dart';
+import 'package:shopping_app/src/pages/admin/product_page/commons/product_bindings.dart';
+import 'package:shopping_app/src/pages/admin/product_page/views/product_page.dart';
 import 'package:shopping_app/src/pages/admin/products_page/commons/products_bindings.dart';
 import 'package:shopping_app/src/pages/admin/products_page/views/products_page.dart';
 import 'package:shopping_app/src/pages/search/commons/search_bindings.dart';
@@ -37,12 +39,13 @@ class RoutePages {
     ),
     GetPage(
       name: RouteNames.adminProduct,
-      page: () => AdminProductsPage(),
+      page: () => AdminProductPage(),
+      binding: AdminProductBinding(),
     ),
     GetPage(
       name: RouteNames.adminAddProduct,
       page: () => AdminAddProductPage(),
-      binding: AddProductBinding(),
+      binding: AdminAddProductBinding(),
     ),
     GetPage(
       name: RouteNames.usersPage,
