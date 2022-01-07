@@ -19,204 +19,214 @@ class AdminAddProductPage extends StatelessWidget {
           'Add Product',
         )),
         body: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Container(
-              alignment: Alignment.topLeft,
-              padding: EdgeInsets.all(Utils.largePadding),
-              child: Column(
-                children: [
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(Utils.largePadding),
-                      child: _imagePicker(context),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Utils.largePadding,
-                        vertical: Utils.smallPadding),
-                    child: TextFormField(
-                      autofocus: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter product\'s name',
-                        labelText: 'Name',
-                      ),
-                      validator: controller.validator,
-                      controller: controller.nameController,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Utils.largePadding,
-                        vertical: Utils.smallPadding),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: '#',
-                        labelText: 'In Stock',
-                      ),
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      keyboardType: TextInputType.number,
-                      controller: controller.inStockController,
-                      validator: controller.inStockValidator,
-                    ),
-                  ),
-                  Padding(
-                    //Description Field
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Utils.largePadding,
-                        vertical: Utils.smallPadding),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Description',
-                        labelText: 'Description',
-                      ),
-                      maxLines: 5,
-                      minLines: 3,
-                      validator: controller.validator,
-                      controller: controller.descriptionController,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Utils.largePadding,
-                        vertical: Utils.smallPadding),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: '123,456,789',
-                        labelText: 'Price',
-                        prefixText: '\$', //TODO: handle price formatting
-                      ),
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                      ],
-                      keyboardType: TextInputType.number,
-                      validator: controller.validator,
-                      controller: controller.priceController,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Utils.largePadding,
-                        vertical: Utils.smallPadding),
-                    child: _autocompleteFormField(),
-                  ),
-                  Obx(() {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Utils.largePadding,
-                          vertical: Utils.smallPadding),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            for (var item in controller.productTags)
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: Utils.tinyPadding),
-                                child: Container(
-                                    padding: EdgeInsets.all(Utils.tinyPadding),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15),
-                                        color:
-                                            MaterialTheme.secondaryColor[300]),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: Utils.tinyPadding),
-                                          child: SizedBox(
-                                            width: 20,
-                                            height: 20,
-                                            child: IconButton(
-                                              color: MaterialTheme
-                                                  .secondaryColor[700],
-                                              padding: EdgeInsets.zero,
-                                              visualDensity:
-                                                  VisualDensity.compact,
-                                              // padding: EdgeInsets.all(
-                                              //     Utils.tinyPadding),
-                                              tooltip: 'Pop Tag',
-                                              iconSize: 20,
-                                              icon: const Icon(Icons.clear),
-                                              onPressed: () => controller
-                                                  .productTags
-                                                  .remove(item),
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: Utils.tinyPadding),
-                                          child: Text(
-                                            item,
-                                            style: TextStyle(
-                                                color: MaterialTheme
-                                                    .primaryColor[50]),
-                                          ),
-                                        ),
-                                      ],
-                                    )),
-                              )
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-                  Obx(() => Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Checkbox(
-                              value: controller.isEnabled.value,
-                              onChanged: (value) {
-                                controller.isEnabled.value = value!;
-                              }),
-                          Text((controller.isEnabled.value)
-                              ? 'Product Enabled'
-                              : 'Product Disabled')
-                        ],
-                      )),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        padding: EdgeInsets.zero,
-                        iconSize: 30,
-                        color: MaterialTheme.primaryColor[700],
-                        icon: const Icon(
-                          Icons.clear,
-                        ),
-                        onPressed: () {
-                          formKey.currentState!.reset();
-                          controller.productTags.clear();
-                        },
-                      ),
-                      IconButton(
-                          padding: EdgeInsets.zero,
-                          iconSize: 30,
-                          color: MaterialTheme.primaryColor[700],
-                          icon: const Icon(
-                            Icons.check,
-                          ),
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              controller.addProduct();
-                            }
-                          })
-                    ],
-                  ),
-                ],
-              ),
+          child: Container(
+            alignment: Alignment.topLeft,
+            padding: EdgeInsets.all(Utils.largePadding),
+            child: Column(
+              children: [
+                _addProductCard(context),
+                const SizedBox(
+                  height: 50,
+                ),
+                _bottomActionButtons(),
+              ],
             ),
           ),
         ));
   }
 
-  Widget _autocompleteFormField() {
+  Widget _addProductCard(BuildContext context) {
+    return Form(
+      key: formKey,
+      child: Container(
+        decoration: BoxDecoration(
+          color: MaterialTheme.enabledCardColor,
+          borderRadius: BorderRadius.circular(13),
+        ),
+        child: Column(
+          children: [
+            Center(
+              child: Padding(
+                padding: EdgeInsets.all(Utils.largePadding),
+                child: _imagePicker(context),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: Utils.largePadding, vertical: Utils.smallPadding),
+              child: TextFormField(
+                autofocus: true,
+                decoration: const InputDecoration(
+                  hintText: 'Enter product\'s name',
+                  labelText: 'Name',
+                ),
+                validator: controller.validator,
+                controller: controller.nameController,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: Utils.largePadding, vertical: Utils.smallPadding),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  hintText: '#',
+                  labelText: 'In Stock',
+                ),
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: TextInputType.number,
+                controller: controller.inStockController,
+                validator: controller.inStockValidator,
+              ),
+            ),
+            Padding(
+              //Description Field
+              padding: EdgeInsets.symmetric(
+                  horizontal: Utils.largePadding, vertical: Utils.smallPadding),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  hintText: 'Description',
+                  labelText: 'Description',
+                ),
+                maxLines: 5,
+                minLines: 3,
+                validator: controller.validator,
+                controller: controller.descriptionController,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: Utils.largePadding, vertical: Utils.smallPadding),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  hintText: '123,456,789',
+                  labelText: 'Price',
+                  prefixText: '\$', //TODO: handle price formatting
+                ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                keyboardType: TextInputType.number,
+                validator: controller.validator,
+                controller: controller.priceController,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: Utils.largePadding, vertical: Utils.smallPadding),
+              child: _tagsFormField(),
+            ),
+            Obx(() {
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: Utils.largePadding,
+                    vertical: Utils.smallPadding),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      for (var item in controller.productTags)
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: Utils.tinyPadding),
+                          child: Container(
+                              padding: EdgeInsets.all(Utils.tinyPadding),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: MaterialTheme.secondaryColor[300]),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: Utils.tinyPadding),
+                                    child: SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: IconButton(
+                                        color:
+                                            MaterialTheme.secondaryColor[700],
+                                        padding: EdgeInsets.zero,
+                                        visualDensity: VisualDensity.compact,
+                                        // padding: EdgeInsets.all(
+                                        //     Utils.tinyPadding),
+                                        tooltip: 'Pop Tag',
+                                        iconSize: 20,
+                                        icon: const Icon(Icons.clear),
+                                        onPressed: () =>
+                                            controller.productTags.remove(item),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: Utils.tinyPadding),
+                                    child: Text(
+                                      item,
+                                      style: TextStyle(
+                                          color:
+                                              MaterialTheme.primaryColor[50]),
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        )
+                    ],
+                  ),
+                ),
+              );
+            }),
+            Obx(() => Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Checkbox(
+                        value: controller.isEnabled.value,
+                        onChanged: (value) {
+                          controller.isEnabled.value = value!;
+                        }),
+                    Text((controller.isEnabled.value)
+                        ? 'Product Enabled'
+                        : 'Product Disabled')
+                  ],
+                ))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _bottomActionButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        IconButton(
+          padding: EdgeInsets.zero,
+          iconSize: 30,
+          color: MaterialTheme.primaryColor[700],
+          icon: const Icon(
+            Icons.clear,
+          ),
+          onPressed: () {
+            formKey.currentState!.reset();
+            controller.productTags.clear();
+          },
+        ),
+        IconButton(
+            padding: EdgeInsets.zero,
+            iconSize: 30,
+            color: MaterialTheme.primaryColor[700],
+            icon: const Icon(
+              Icons.check,
+            ),
+            onPressed: () {
+              if (formKey.currentState!.validate()) {
+                controller.addProduct();
+              }
+            })
+      ],
+    );
+  }
+
+  Widget _tagsFormField() {
     return RawAutocomplete<AdminAddProductTagModel>(
       textEditingController: controller.tagController,
       focusNode: FocusNode(),
