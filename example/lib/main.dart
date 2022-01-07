@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'package:shopping_app/shopping_app.dart';
 
 void main() async {
-  runApp(ShoppingApp());
+  runApp(const ShoppingApp());
 }
 
 class ShoppingApp extends StatelessWidget {
-  ShoppingApp({final Key? key}) : super(key: key);
+  const ShoppingApp({final Key? key}) : super(key: key);
   // String baseUrl = '127.0.0.1:3000';
-  String baseUrl = '10.0.2.2:3000';
+  final String baseUrl = '10.0.2.2:3000';
 
   void _setInitialUrlData() {
     ShoppingAppParameters.fullBaseUrl = 'http://$baseUrl';
