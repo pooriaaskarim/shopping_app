@@ -70,7 +70,7 @@ class AdminProductsClient extends Client {
     });
   }
 
-  Future<Either<Exception, Response>> removeProduct(
+  Future<Either<Exception, Response>> deleteProduct(
       AdminProductModel productModel) async {
     Either<Exception, Response> zResponse =
         await dioDelete(RepositoryUrls.productById(productModel.id));
@@ -81,7 +81,7 @@ class AdminProductsClient extends Client {
     });
   }
 
-  Future<Either<Exception, Response>> removeProductImage(
+  Future<Either<Exception, Response>> deleteProductImage(
       AdminProductModel productModel) async {
     Either<Exception, Response> zResponse =
         await dioDelete(RepositoryUrls.productImageById(productModel.imageID));

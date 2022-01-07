@@ -30,113 +30,113 @@ class AdminProductsPage extends StatelessWidget {
               Get.toNamed(RouteNames.adminAddProduct);
             }),
         drawer: _adminProductsDrawer(),
-        body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                TextButton(
-                    onPressed: () {
-                      controller.refresh();
-                    },
-                    child: const Text('data')),
-                Obx(() => Padding(
-                      padding: EdgeInsets.all(Utils.smallPadding),
-                      child: SizedBox(
-                        width: MediaQuery.of(Get.context!).size.width,
-                        // height: MediaQuery.of(Get.context!).size.height,
-                        child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemCount: controller.productsList.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: Utils.smallPadding,
-                                  horizontal: Utils.mediumPadding),
-                              child: _productCard(index),
-                            );
-                          },
-                        ),
+        body: RefreshIndicator(
+          onRefresh: () => controller.initProducts(refresh: true),
+          child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Obx(() => Padding(
+                    padding: EdgeInsets.all(Utils.smallPadding),
+                    child: SizedBox(
+                      width: MediaQuery.of(Get.context!).size.width,
+                      // height: MediaQuery.of(Get.context!).size.height,
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        itemCount: controller.productsList.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: Utils.smallPadding,
+                                horizontal: Utils.mediumPadding),
+                            child: _productCard(index),
+                          );
+                        },
                       ),
-                    )),
-              ],
-            )));
+                    ),
+                  ))),
+        ));
   }
 
-  Container _productCard(int index) {
-    return Container(
-      width: MediaQuery.of(Get.context!).size.width,
-      padding: EdgeInsets.all(Utils.mediumPadding),
-      decoration: BoxDecoration(
-          color: (controller.productsList[index].isEnabled)
-              ? MaterialTheme.enabledCardColor
-              : MaterialTheme.disabledCardColor,
-          borderRadius: BorderRadius.circular(13)),
-      child: Row(
-        children: [
-          Container(
-            height: 200,
-            width: 200,
-            padding: EdgeInsets.all(Utils.tinyPadding),
-            decoration: BoxDecoration(
-                color: MaterialTheme.primaryColor[300],
-                borderRadius: BorderRadius.circular(13)),
-            child: _productImage(index),
-          ),
-          Expanded(
-            child: Padding(
+  GestureDetector _productCard(int index) {
+    return GestureDetector(
+      onTap: () => Get.toNamed(RouteNames.adminProduct,
+          parameters: {'productID': '${controller.productsList[index].id}'}),
+      child: Container(
+        width: MediaQuery.of(Get.context!).size.width,
+        padding: EdgeInsets.all(Utils.mediumPadding),
+        decoration: BoxDecoration(
+            color: (controller.productsList[index].isEnabled)
+                ? MaterialTheme.enabledCardColor
+                : MaterialTheme.disabledCardColor,
+            borderRadius: BorderRadius.circular(13)),
+        child: Row(
+          children: [
+            Container(
+              height: 200,
+              width: 200,
               padding: EdgeInsets.all(Utils.tinyPadding),
-              child: SizedBox(
-                height: 200,
-                // width: 100,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(controller.productsList[index].name),
-                    Text(
-                        'Products in stock ${controller.productsList[index].inStock}'),
-                    Text(
-                      controller.productsList[index].description,
-                      maxLines: 3,
-                      // softWrap: false,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Text('Price ${controller.productsList[index].price}'),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          for (var item in controller.productsList[index].tags)
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: Utils.tinyPadding),
-                              child: Container(
-                                  padding: EdgeInsets.all(Utils.tinyPadding),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: MaterialTheme.secondaryColor[300]),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: Utils.tinyPadding),
-                                    child: Text(
-                                      item,
-                                      style: TextStyle(
-                                          color:
-                                              MaterialTheme.primaryColor[50]),
-                                    ),
-                                  )),
-                            )
-                        ],
+              decoration: BoxDecoration(
+                  color: MaterialTheme.primaryColor[300],
+                  borderRadius: BorderRadius.circular(13)),
+              child: _productImage(index),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(Utils.tinyPadding),
+                child: SizedBox(
+                  height: 200,
+                  // width: 100,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(controller.productsList[index].name),
+                      Text(
+                          'Products in stock ${controller.productsList[index].inStock}'),
+                      Text(
+                        controller.productsList[index].description,
+                        maxLines: 3,
+                        // softWrap: false,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    )
-                  ],
+                      Text('Price ${controller.productsList[index].price}'),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            for (var item
+                                in controller.productsList[index].tags)
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Utils.tinyPadding),
+                                child: Container(
+                                    padding: EdgeInsets.all(Utils.tinyPadding),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(15),
+                                        color:
+                                            MaterialTheme.secondaryColor[300]),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: Utils.tinyPadding),
+                                      child: Text(
+                                        item,
+                                        style: TextStyle(
+                                            color:
+                                                MaterialTheme.primaryColor[50]),
+                                      ),
+                                    )),
+                              )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -191,7 +191,7 @@ class AdminProductsPage extends StatelessWidget {
                                   TextButton(
                                     onPressed: () {
                                       controller.deleteProduct(
-                                          controller.productsList[index].id);
+                                          controller.productsList[index]);
                                       controller.refresh();
                                       Navigator.pop(context);
                                     },
@@ -216,7 +216,7 @@ class AdminProductsPage extends StatelessWidget {
                             AdminProductModel.fromMap(
                                 controller.productsList[index].toMap());
                         controller
-                            .updateProduct(controller.productsList[index].id);
+                            .toggleProduct(controller.productsList[index].id);
                       }),
                 ),
                 Container(
@@ -232,7 +232,12 @@ class AdminProductsPage extends StatelessWidget {
                     icon: const Icon(
                       Icons.edit,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(RouteNames.adminProduct, parameters: {
+                        'productID': '${controller.productsList[index].id}',
+                        'editingMode': 'true'
+                      });
+                    },
                   ),
                 )
               ],
@@ -242,89 +247,6 @@ class AdminProductsPage extends StatelessWidget {
       ),
     );
   }
-
-  // Widget _productTileImage(int index) {
-  //   return FutureBuilder(
-  //     future:
-  //         controller.getProductImage(controller.productsList[index].imageID),
-  //     builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-  //       if (snapshot.connectionState == ConnectionState.waiting) {
-  //         return Center(child: ShoppingAppCircularProgressIndicator());
-  //       } else if (snapshot.hasData) {
-  //         return Stack(
-  //           fit: StackFit.passthrough,
-  //           children: [
-  //             Image.memory(
-  //               snapshot.data.image,
-  //               fit: BoxFit.fitWidth,
-  //             ),
-  //             Padding(
-  //               padding: EdgeInsets.all(Utils.mediumPadding),
-  //               child: Row(
-  //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //                 crossAxisAlignment: CrossAxisAlignment.end,
-  //                 children: [
-  //                   Container(
-  //                     height: 25,
-  //                     width: 25,
-  //                     decoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.circular(50),
-  //                         color:
-  //                             MaterialTheme.primaryColor[300]!.withOpacity(.5)),
-  //                     child: IconButton(
-  //                       padding: EdgeInsets.zero,
-  //                       iconSize: 20,
-  //                       color: MaterialTheme.primaryColor[700],
-  //                       icon: const Icon(
-  //                         Icons.edit,
-  //                       ),
-  //                       onPressed: () {},
-  //                     ),
-  //                   ),
-  //                   Container(
-  //                     height: 25,
-  //                     width: 25,
-  //                     decoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.circular(50),
-  //                         color:
-  //                             MaterialTheme.primaryColor[300]!.withOpacity(.5)),
-  //                     child: Checkbox(
-  //                         value: controller.productsList[index].isEnabled,
-  //                         onChanged: (value) {
-  //                           controller.productsList[index].isEnabled = value!;
-  //                           controller.productsList[index] =
-  //                               AdminProductModel.fromMap(
-  //                                   controller.productsList[index].toMap());
-  //                         }),
-  //                   ),
-  //                   Container(
-  //                     height: 25,
-  //                     width: 25,
-  //                     decoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.circular(50),
-  //                         color:
-  //                             MaterialTheme.primaryColor[300]!.withOpacity(.5)),
-  //                     child: IconButton(
-  //                       padding: EdgeInsets.zero,
-  //                       iconSize: 20,
-  //                       color: MaterialTheme.primaryColor[700],
-  //                       icon: const Icon(
-  //                         Icons.delete,
-  //                       ),
-  //                       onPressed: () {},
-  //                     ),
-  //                   )
-  //                 ],
-  //               ),
-  //             )
-  //           ],
-  //         );
-  //       } else {
-  //         return const Center(child: Text('No Image'));
-  //       }
-  //     },
-  //   );
-  // }
 
   Widget _adminProductsDrawer() {
     return SafeArea(

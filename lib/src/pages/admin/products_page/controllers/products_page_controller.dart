@@ -46,7 +46,7 @@ class AdminProductsController extends GetxController {
   }
 
 //Fetch product and product images from server
-  Future getProducts({bool refresh = false}) async {
+  Future initProducts({bool refresh = false}) async {
     if (refresh) {
       productsList.clear();
       productImagesList.clear();
@@ -83,7 +83,7 @@ class AdminProductsController extends GetxController {
   }
 
 //Update product based on productLists items
-  Future updateProduct(int productID) async {
+  Future toggleProduct(int productID) async {
     AdminProductModel productModel = productsList.where((product) {
       return product.id == productID;
     }).toList()[0];
@@ -110,12 +110,9 @@ class AdminProductsController extends GetxController {
     });
   }
 
-  Future deleteProduct(int productID) async {
-    AdminProductModel productModel = productsList.where((product) {
-      return product.id == productID;
-    }).toList()[0];
+  Future deleteProduct(AdminProductModel productModel) async {
     Either<Exception, dio.Response> zResponse =
-        await client.removeProduct(productModel);
+        await client.deleteProduct(productModel);
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
         content: Text('Connection Error'),
@@ -123,7 +120,7 @@ class AdminProductsController extends GetxController {
       throw Exception(exception);
     }, (response) async {
       Either<Exception, dio.Response> zResponse =
-          await client.removeProductImage(productModel);
+          await client.deleteProductImage(productModel);
       zResponse.fold((exception) {
         ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
           content: Text('Connection Error'),
@@ -143,14 +140,14 @@ class AdminProductsController extends GetxController {
       user.value = await getUser(userID); //TODO: handle client error
       // userImage.value = await getUserImage(user.value!.imageID);
     } //TODO: handle user retrieve error
-    await getProducts();
+    await initProducts();
 
     super.onInit();
   }
 
   @override
   void refresh() async {
-    await getProducts(refresh: true);
+    await initProducts(refresh: true);
     super.refresh();
   }
 }
