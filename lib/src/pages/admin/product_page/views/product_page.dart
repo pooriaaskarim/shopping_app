@@ -119,9 +119,7 @@ class AdminProductPage extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: Utils.largePadding, vertical: Utils.smallPadding),
-            child: (controller.editingMode.value)
-                ? _autocompleteFormField()
-                : null,
+            child: (controller.editingMode.value) ? _tagsFormField() : null,
           ),
           Obx(() {
             return Padding(
@@ -155,8 +153,6 @@ class AdminProductPage extends StatelessWidget {
                                             padding: EdgeInsets.zero,
                                             visualDensity:
                                                 VisualDensity.compact,
-                                            // padding: EdgeInsets.all(
-                                            //     Utils.tinyPadding),
                                             tooltip: 'Pop Tag',
                                             iconSize: 20,
                                             icon: const Icon(Icons.clear),
@@ -327,7 +323,7 @@ class AdminProductPage extends StatelessWidget {
     );
   }
 
-  Widget _autocompleteFormField() {
+  Widget _tagsFormField() {
     return RawAutocomplete<AdminProductTagModel>(
       textEditingController: controller.tagController,
       focusNode: FocusNode(),
