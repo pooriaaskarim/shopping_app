@@ -1,16 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shopping_app/shopping_app.dart';
-import 'package:shopping_app/src/pages/admin/add_product_page/controllers/add_product_page_controller.dart';
+import 'package:shopping_app/src/pages/admin/add_product_page/controllers/add_product_controller.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_tag_model.dart';
 
 class AdminAddProductPage extends StatelessWidget {
   AdminAddProductPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
-  final controller = Get.find<AddProductController>();
+  final controller = Get.find<AdminAddProductController>();
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +262,6 @@ class AdminAddProductPage extends StatelessWidget {
                   updater(value);
                 },
                 focusNode: focusNode,
-                // onFieldSubmitted: (_) => onFieldSubmitted,
                 controller: tagController,
                 validator: controller.tagsValidator,
               );

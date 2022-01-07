@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:shopping_app/src/pages/admin/add_product_page/controllers/add_product_page_controller.dart';
+import 'package:shopping_app/src/pages/admin/add_product_page/controllers/add_product_controller.dart';
 
-class AddProductBinding extends Bindings {
+class AdminAddProductBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => AddProductController());
+    Get.lazyPut(() => AdminAddProductController());
   }
 }

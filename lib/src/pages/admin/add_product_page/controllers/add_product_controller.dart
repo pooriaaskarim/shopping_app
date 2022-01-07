@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_dto.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_image_dto.dart';
+import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_image_model.dart';
+import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_model.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_tag_dto.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_tag_model.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/repositories/add_product_repository.dart';
 import 'package:shopping_app/src/pages/shared/image_handler.dart';
 
-class AddProductController extends GetxController {
+class AdminAddProductController extends GetxController {
   final client = AddProductClient();
   TextEditingController nameController = TextEditingController();
   TextEditingController inStockController = TextEditingController();
@@ -27,14 +29,14 @@ class AddProductController extends GetxController {
           .showSnackBar(SnackBar(content: Text('tag $tag already exists.')));
       throw Exception('Failed to add tag $tag: tag already exists.');
     }
-    Either<Exception, dio.Response> zResponse =
+    Either<Exception, AdminAddProductTagModel> zResponse =
         await client.addTag(AdminAddProductTagDTO(tag: tag));
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!)
           .showSnackBar(const SnackBar(content: Text('Connection Error')));
       throw Exception('Failed to add tag $tag: Connection Error: $exception');
-    }, (response) {
-      return AdminAddProductTagModel.fromMap(response.data);
+    }, (tagModel) {
+      return tagModel;
     });
   }
 
@@ -43,14 +45,13 @@ class AddProductController extends GetxController {
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!)
           .showSnackBar(const SnackBar(content: Text('Connection Error')));
-      throw Left(
-          Exception('tag deletion failed: Connection Error: $exception'));
+      throw Exception('tag deletion failed: Connection Error: $exception');
     }, (response) {
       return response;
     });
   }
 
-  Future getTags() async {
+  Future<List<AdminAddProductTagModel>> getTags() async {
     Either<Exception, List<AdminAddProductTagModel>> zResponse =
         await client.getTagsList();
     return zResponse.fold((exception) {
@@ -60,26 +61,26 @@ class AddProductController extends GetxController {
     });
   }
 
-  Future uploadImage() async {
-    Either<Exception, dio.Response>? zResponse;
+  Future<AdminAddProductImageModel> uploadImage() async {
     AdminAddProductImageDTO dto = AdminAddProductImageDTO(
         image: productImagerHandler.imageFile.value!.readAsBytesSync());
-    zResponse = await client.uploadImage(dto);
+    Either<Exception, AdminAddProductImageModel> zResponse =
+        await client.uploadImage(dto);
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!)
           .showSnackBar(const SnackBar(content: Text('Connection Error')));
       throw Left(
           Exception('Failed to add Image: Connection Error: $exception'));
-    }, (response) {
-      return response.data['id'];
+    }, (imageModel) {
+      return imageModel;
     });
   }
 
   Future addProduct() async {
-    Either<Exception, dio.Response>? zResponse;
     int _imageID = 0;
     if (productImagerHandler.imageFile.value != null) {
-      _imageID = await uploadImage();
+      AdminAddProductImageModel imageModel = await uploadImage();
+      _imageID = imageModel.id;
     } else {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
           const SnackBar(content: Text('Products must have a picture.')));
@@ -94,7 +95,8 @@ class AddProductController extends GetxController {
         inStock: int.parse(inStockController.text),
         imageID: _imageID,
         isEnabled: isEnabled.value);
-    zResponse = await client.addProduct(dto);
+    Either<Exception, AdminAddProductModel> zResponse =
+        await client.addProduct(dto);
     zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!)
           .showSnackBar(const SnackBar(content: Text('Connection Error')));

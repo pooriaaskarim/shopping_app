@@ -3,38 +3,42 @@ import 'package:dio/dio.dart';
 import 'package:shopping_app/src/infrastructures/commons/repository_urls.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_dto.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_image_dto.dart';
+import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_image_model.dart';
+import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_model.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_tag_dto.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_tag_model.dart';
 import 'package:shopping_app/src/pages/shared/repository/main_repository.dart';
 
 class AddProductClient extends Client {
-  Future<Either<Exception, Response>> addProduct(AdminAddProductDTO dto) async {
+  Future<Either<Exception, AdminAddProductModel>> addProduct(
+      AdminAddProductDTO dto) async {
     var zResponse = await dioPost(RepositoryUrls.products(), dto.toMap());
     return zResponse.fold((exception) {
       return Left(Exception(exception));
     }, (response) {
-      return Right(response);
+      return Right(AdminAddProductModel.fromMap(response.data));
     });
   }
 
-  Future<Either<Exception, Response>> uploadImage(
+  Future<Either<Exception, AdminAddProductImageModel>> uploadImage(
       AdminAddProductImageDTO dto) async {
     Either<Exception, Response> zResponse =
         await dioPost(RepositoryUrls.productImages(), dto.toMap());
     return zResponse.fold((exception) {
       return Left(Exception(exception));
     }, (response) {
-      return Right(response);
+      return Right(AdminAddProductImageModel.fromMap(response.data));
     });
   }
 
-  Future<Either<Exception, Response>> addTag(AdminAddProductTagDTO dto) async {
+  Future<Either<Exception, AdminAddProductTagModel>> addTag(
+      AdminAddProductTagDTO dto) async {
     Either<Exception, Response> zResponse =
         await dioPost(RepositoryUrls.productTags(), dto.toMap());
     return zResponse.fold((exception) {
       return Left(Exception(exception));
     }, (response) {
-      return Right(response);
+      return Right(AdminAddProductTagModel.fromMap(response.data));
     });
   }
 

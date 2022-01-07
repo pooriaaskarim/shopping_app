@@ -13,10 +13,10 @@ class AdminAddProductImageModel extends ImageModel {
     };
   }
 
-  factory AdminAddProductImageModel.fromMap(Map<String, dynamic> map) {
+  factory AdminAddProductImageModel.fromMap(Map<String, dynamic> jsonMap) {
     return AdminAddProductImageModel(
-      id: map['id'] as int,
-      image: map['image'].cast<int>(),
+      id: jsonMap['id'] as int,
+      image: Uint8List.fromList(jsonMap['image'].cast<int>()),
     );
   }
 }
