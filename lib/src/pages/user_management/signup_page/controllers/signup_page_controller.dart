@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopping_app/shopping_app.dart';
 import 'package:shopping_app/src/pages/shared/image_handler.dart';
 import 'package:shopping_app/src/pages/user_management/signup_page/models/signup_user_dto.dart';
 import 'package:shopping_app/src/pages/user_management/signup_page/models/signup_user_model.dart';
@@ -46,8 +47,8 @@ class SignUpController extends GetxController {
         image: userImageHandler.imageFile.value!.readAsBytesSync());
     Either<Exception, dio.Response> zResponse = await client.uploadImage(dto);
     return zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(const SnackBar(content: Text('Connection Error')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
       throw Exception(exception); //TODO: handle Error
     }, (response) {
       return response.data['id'];
@@ -73,8 +74,8 @@ class SignUpController extends GetxController {
         isAdmin: _isAdmin);
     Either<Exception, dio.Response> zResponse = await client.signUserUp(dto);
     zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(const SnackBar(content: Text('Connection Error')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
       throw Exception(exception);
     }, (response) async {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -87,7 +88,7 @@ class SignUpController extends GetxController {
 
   String? validator(String? v) {
     if (v == null || v.isEmpty) {
-      return 'Field can not be empty';
+      return LocaleKeys.error_data_field_can_not_be_empty.tr;
     }
     return null;
   }
@@ -97,27 +98,27 @@ class SignUpController extends GetxController {
 
   String? usernameValidator(String? v) {
     if (v == null || v.isEmpty) {
-      return 'Field can not be empty';
+      return LocaleKeys.error_data_field_can_not_be_empty.tr;
     } else if (users.map((e) => e.username).toList().contains(v)) {
-      return 'Username is taken';
+      return LocaleKeys.error_data_username_is_taken_error.tr;
     } else if (v.length <= 3) {
-      return 'Username must be at least 4 characters';
+      return LocaleKeys.error_data_username_length_error.tr;
     }
     return null;
   }
 
   String? passwordValidator(String? v) {
     if (v == null || v.isEmpty) {
-      return 'Field can not be empty';
+      return LocaleKeys.error_data_field_can_not_be_empty.tr;
     } else if (v.length < 8) {
-      return 'Password must be 8 characters or longer';
+      return LocaleKeys.error_data_password_length_error.tr;
     }
     return null;
   }
 
   String? retypePasswordValidator(String? v) {
     if (v != passwordController.text) {
-      return 'Check your password and try again';
+      return LocaleKeys.error_data_retype_password_error.tr;
     }
     return null;
   }

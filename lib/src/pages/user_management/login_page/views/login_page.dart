@@ -56,10 +56,10 @@ class LoginPage extends StatelessWidget {
               padding: EdgeInsets.all(Utils.largePadding),
               child: TextFormField(
                 autofocus: true,
-                decoration: const InputDecoration(
-                    hintText: 'Enter your username',
-                    labelText: 'Username',
-                    suffixIcon: Icon(Icons.person)),
+                decoration: InputDecoration(
+                    hintText: LocaleKeys.tr_data_enter_your_username.tr,
+                    labelText: LocaleKeys.tr_data_username.tr,
+                    suffixIcon: const Icon(Icons.person)),
                 validator: controller.validator,
                 controller: controller.usernameController,
               ),
@@ -75,35 +75,35 @@ class LoginPage extends StatelessWidget {
                               .add(controller.passwordIsVisible.removeAt(0));
                         },
                       ),
-                      hintText: 'Enter your password',
-                      labelText: 'Password',
+                      hintText: LocaleKeys.tr_data_enter_your_password.tr,
+                      labelText: LocaleKeys.tr_data_password.tr,
                     ),
                     obscureText: controller.passwordIsVisible[0]['value'],
                     controller: controller.passwordController,
                     validator: controller.validator,
                   )),
             ),
-            Padding(
-              padding: EdgeInsets.all(Utils.largePadding),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Obx(() => Checkbox(
-                      value: controller.keepSignedIn.value,
-                      onChanged: (v) {
-                        controller.keepSignedIn.value = v!;
-                      })),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(Utils.mediumPadding, 0, 0, 0),
-                    child: const Text(
-                      'Keep me logged in',
-                      style: TextStyle(
-                          color: MaterialTheme.textColor, fontSize: 16.0),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.all(Utils.largePadding),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.start,
+            //     children: [
+            //       Obx(() => Checkbox(
+            //           value: controller.keepSignedIn.value,
+            //           onChanged: (v) {
+            //             controller.keepSignedIn.value = v!;
+            //           })),
+            //       Padding(
+            //         padding: EdgeInsets.fromLTRB(Utils.mediumPadding, 0, 0, 0),
+            //         child: Text(
+            //           LocaleKeys.tr_data_keep_me_logged_in.tr,
+            //           style: const TextStyle(
+            //               color: MaterialTheme.textColor, fontSize: 16.0),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             Padding(
               padding: EdgeInsets.all(Utils.largePadding),
               child: Row(
@@ -116,7 +116,7 @@ class LoginPage extends StatelessWidget {
                         }
                       },
                       child: Text(
-                        'Login',
+                        LocaleKeys.tr_data_login.tr,
                         style: TextStyle(color: MaterialTheme.primaryColor[50]),
                       )),
                 ],
@@ -127,14 +127,15 @@ class LoginPage extends StatelessWidget {
                   //TODO: handle controller close before navigating to signup page
                   Get.toNamed(RouteNames.signupPage);
                 },
-                child: const Text.rich(
+                child: Text.rich(
                   TextSpan(
-                      style: TextStyle(color: MaterialTheme.textColor),
+                      style: const TextStyle(color: MaterialTheme.textColor),
                       children: [
-                        TextSpan(text: 'Not a member? '),
                         TextSpan(
-                            text: 'Register here.',
-                            style: TextStyle(fontWeight: FontWeight.bold))
+                            text: '${LocaleKeys.tr_data_not_a_member.tr} '),
+                        TextSpan(
+                            text: LocaleKeys.tr_data_register_here.tr,
+                            style: const TextStyle(fontWeight: FontWeight.bold))
                       ]),
                 )),
           ],

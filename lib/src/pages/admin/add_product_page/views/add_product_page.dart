@@ -15,8 +15,8 @@ class AdminAddProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: const Text(
-          'Add Product',
+            title: Text(
+          LocaleKeys.tr_data_add_product.tr,
         )),
         body: SingleChildScrollView(
           child: Container(
@@ -56,9 +56,9 @@ class AdminAddProductPage extends StatelessWidget {
                   horizontal: Utils.largePadding, vertical: Utils.smallPadding),
               child: TextFormField(
                 autofocus: true,
-                decoration: const InputDecoration(
-                  hintText: 'Enter product\'s name',
-                  labelText: 'Name',
+                decoration: InputDecoration(
+                  hintText: LocaleKeys.tr_data_enter_product_name.tr,
+                  labelText: LocaleKeys.tr_data_name.tr,
                 ),
                 validator: controller.validator,
                 controller: controller.nameController,
@@ -68,9 +68,9 @@ class AdminAddProductPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                   horizontal: Utils.largePadding, vertical: Utils.smallPadding),
               child: TextFormField(
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: '#',
-                  labelText: 'In Stock',
+                  labelText: LocaleKeys.tr_data_in_Stock.tr,
                 ),
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 keyboardType: TextInputType.number,
@@ -83,9 +83,9 @@ class AdminAddProductPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                   horizontal: Utils.largePadding, vertical: Utils.smallPadding),
               child: TextFormField(
-                decoration: const InputDecoration(
-                  hintText: 'Description',
-                  labelText: 'Description',
+                decoration: InputDecoration(
+                  hintText: LocaleKeys.tr_data_description.tr,
+                  labelText: LocaleKeys.tr_data_description.tr,
                 ),
                 maxLines: 5,
                 minLines: 3,
@@ -97,9 +97,9 @@ class AdminAddProductPage extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                   horizontal: Utils.largePadding, vertical: Utils.smallPadding),
               child: TextFormField(
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: '123,456,789',
-                  labelText: 'Price',
+                  labelText: LocaleKeys.tr_data_price.tr,
                   prefixText: '\$', //TODO: handle price formatting
                 ),
                 inputFormatters: [
@@ -146,9 +146,7 @@ class AdminAddProductPage extends StatelessWidget {
                                             MaterialTheme.secondaryColor[700],
                                         padding: EdgeInsets.zero,
                                         visualDensity: VisualDensity.compact,
-                                        // padding: EdgeInsets.all(
-                                        //     Utils.tinyPadding),
-                                        tooltip: 'Pop Tag',
+                                        tooltip: LocaleKeys.tr_data_pop_tag.tr,
                                         iconSize: 20,
                                         icon: const Icon(Icons.clear),
                                         onPressed: () =>
@@ -183,8 +181,8 @@ class AdminAddProductPage extends StatelessWidget {
                           controller.isEnabled.value = value!;
                         }),
                     Text((controller.isEnabled.value)
-                        ? 'Product Enabled'
-                        : 'Product Disabled')
+                        ? LocaleKeys.tr_data_product_enabled.tr
+                        : LocaleKeys.tr_data_product_disabled.tr)
                   ],
                 ))
           ],
@@ -245,19 +243,21 @@ class AdminAddProductPage extends StatelessWidget {
             builder: (String? snapshot, Function(String?) updater) {
               return TextFormField(
                 decoration: InputDecoration(
-                  hintText: 'Product Tags', //ToDo:change hint text
-                  labelText: 'Tags',
+                  hintText: LocaleKeys
+                      .tr_data_product_tags.tr, //ToDo:change hint text
+                  labelText: LocaleKeys.tr_data_product_tags.tr,
                   suffixIcon: IconButton(
                       color: Color(snapshot!.isEmpty ? 0xff707070 : 0xffc25200),
                       onPressed: () async {
-                        if (snapshot!.isNotEmpty) {
+                        if (snapshot.isNotEmpty) {
                           AdminAddProductTagModel tag =
                               await controller.addTag(tagController.text);
-                          ScaffoldMessenger.of(Get.context!)
-                              .showSnackBar(SnackBar(
-                                  content: Text('Tag ${tag.tag} Added.'),
+                          ScaffoldMessenger.of(Get.context!).showSnackBar(
+                              SnackBar(
+                                  content: Text(
+                                      '${LocaleKeys.tr_data_tag.tr} ${tag.tag} ${LocaleKeys.tr_data_added.tr}.'),
                                   action: SnackBarAction(
-                                      label: 'Undo',
+                                      label: LocaleKeys.tr_data_undo.tr,
                                       onPressed: () {
                                         controller.deleteTag(tag.id);
                                       })));
@@ -305,13 +305,15 @@ class AdminAddProductPage extends StatelessWidget {
                         showDialog(
                             context: Get.context!,
                             builder: (context) => AlertDialog(
-                                  title: const Text('Confirm Delete'),
-                                  content: const Text('Delete tag?'),
+                                  title: Text(
+                                      LocaleKeys.tr_data_confirm_delete.tr),
+                                  content:
+                                      Text(LocaleKeys.tr_data_delete_tag.tr),
                                   actions: <Widget>[
                                     TextButton(
                                       autofocus: true,
                                       onPressed: () => Navigator.pop(context),
-                                      child: const Text('No'),
+                                      child: Text(LocaleKeys.tr_data_no.tr),
                                     ),
                                     TextButton(
                                       onPressed: () {
@@ -320,7 +322,7 @@ class AdminAddProductPage extends StatelessWidget {
                                         controller.refresh();
                                         Navigator.pop(context);
                                       },
-                                      child: const Text('Yes'),
+                                      child: Text(LocaleKeys.tr_data_yes.tr),
                                     ),
                                   ],
                                 ));

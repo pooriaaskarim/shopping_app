@@ -13,8 +13,8 @@ class AdminProductsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'Products',
+          title: Text(
+            LocaleKeys.tr_data_products.tr,
           ),
           actions: [
             Padding(
@@ -38,7 +38,6 @@ class AdminProductsPage extends StatelessWidget {
                     padding: EdgeInsets.all(Utils.smallPadding),
                     child: SizedBox(
                       width: MediaQuery.of(Get.context!).size.width,
-                      // height: MediaQuery.of(Get.context!).size.height,
                       child: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -93,14 +92,15 @@ class AdminProductsPage extends StatelessWidget {
                     children: [
                       Text(controller.productsList[index].name),
                       Text(
-                          'Products in stock ${controller.productsList[index].inStock}'),
+                          '${LocaleKeys.tr_data_products_in_stock.tr} ${controller.productsList[index].inStock}'),
                       Text(
                         controller.productsList[index].description,
                         maxLines: 3,
                         // softWrap: false,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Text('Price ${controller.productsList[index].price}'),
+                      Text(
+                          '${LocaleKeys.tr_data_price.tr} ${controller.productsList[index].price}'),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -180,13 +180,15 @@ class AdminProductsPage extends StatelessWidget {
                       showDialog(
                           context: Get.context!,
                           builder: (context) => AlertDialog(
-                                title: const Text('Confirm Delete'),
-                                content: const Text('Delete Product?'),
+                                title:
+                                    Text(LocaleKeys.tr_data_confirm_delete.tr),
+                                content:
+                                    Text(LocaleKeys.tr_data_delete_product.tr),
                                 actions: <Widget>[
                                   TextButton(
                                     autofocus: true,
                                     onPressed: () => Navigator.pop(context),
-                                    child: const Text('No'),
+                                    child: Text(LocaleKeys.tr_data_no.tr),
                                   ),
                                   TextButton(
                                     onPressed: () {
@@ -195,7 +197,7 @@ class AdminProductsPage extends StatelessWidget {
                                       controller.refresh();
                                       Navigator.pop(context);
                                     },
-                                    child: const Text('Yes'),
+                                    child: Text(LocaleKeys.tr_data_yes.tr),
                                   ),
                                 ],
                               ));
@@ -334,8 +336,8 @@ class AdminProductsPage extends StatelessWidget {
                             Icons.add,
                             color: MaterialTheme.primaryColor[700],
                           ),
-                          title: const Text(
-                            'Add Product',
+                          title: Text(
+                            LocaleKeys.tr_data_add_product.tr,
                           ),
                           onTap: () {
                             Get.toNamed(RouteNames.adminAddProduct);
@@ -353,9 +355,7 @@ class AdminProductsPage extends StatelessWidget {
                             Icons.supervised_user_circle_outlined,
                             color: MaterialTheme.primaryColor[700],
                           ),
-                          title: const Text(
-                            'Users',
-                          ),
+                          title: Text(LocaleKeys.tr_data_users.tr),
                           onTap: () {
                             Get.toNamed(RouteNames.usersPage);
                           }),

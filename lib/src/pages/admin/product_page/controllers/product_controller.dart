@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopping_app/shopping_app.dart';
 import 'package:shopping_app/src/pages/admin/product_page/models/product_image_dto.dart';
 import 'package:shopping_app/src/pages/admin/product_page/models/product_image_model.dart';
 import 'package:shopping_app/src/pages/admin/product_page/models/product_model.dart';
@@ -82,8 +83,8 @@ class AdminProductController extends GetxController {
     Either<Exception, AdminProductImageModel> zResponse =
         await client.uploadImage(dto);
     return zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(const SnackBar(content: Text('Connection Error')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
       throw Left(
           Exception('Failed to add Image: Connection Error: $exception'));
     }, (imageModel) {
@@ -96,18 +97,20 @@ class AdminProductController extends GetxController {
     Either<Exception, AdminProductModel> zResponse =
         await client.updateProduct(product.value!);
     return zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-        content: Text('Connection Error'),
-      ));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
       throw Exception(exception);
     }, (model) async {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
         content: Text.rich(TextSpan(children: [
-          const TextSpan(text: 'Product '),
+          TextSpan(text: '${LocaleKeys.tr_data_product.tr} '),
           TextSpan(
               text: '${model.name} ',
               style: const TextStyle(fontWeight: FontWeight.bold)),
-          TextSpan(text: model.isEnabled ? 'enabled.' : 'disabled')
+          TextSpan(
+              text: model.isEnabled
+                  ? LocaleKeys.tr_data_enabled.tr
+                  : LocaleKeys.tr_data_disabled.tr)
         ])),
         duration: const Duration(seconds: 2),
       ));
@@ -136,16 +139,17 @@ class AdminProductController extends GetxController {
         await client.updateProduct(updateModel);
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: const Text('Couldn\'t update product.'),
+          content: Text(LocaleKeys.error_data_couldnt_update_product.tr),
           action: SnackBarAction(
-              label: 'Retry',
+              label: LocaleKeys.error_data_retry.tr,
               onPressed: () {
                 updateProduct();
               })));
       throw Exception(exception);
     }, (model) async {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-          SnackBar(content: Text('Product ${nameController.text} updated.')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text(
+              '${LocaleKeys.tr_data_product.tr} ${nameController.text} ${LocaleKeys.tr_data_updated.tr}')));
       await Future.delayed(const Duration(seconds: 2));
       Get.back();
       return model;
@@ -156,17 +160,15 @@ class AdminProductController extends GetxController {
     Either<Exception, dio.Response> zResponse =
         await client.deleteProduct(productModel);
     return zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-        content: Text('Connection Error'),
-      ));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
       throw Exception(exception);
     }, (response) async {
       Either<Exception, dio.Response> zResponse =
           await client.deleteProductImage(productModel);
       zResponse.fold((exception) {
-        ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-          content: Text('Connection Error'),
-        ));
+        ScaffoldMessenger.of(Get.context!).showSnackBar(
+            SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
         throw Exception(exception);
       }, (response) async {
         return Right(response);
@@ -177,15 +179,16 @@ class AdminProductController extends GetxController {
 
   Future addTag(String tag) async {
     if (tags.map((e) => e.tag).toList().contains(tag)) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(SnackBar(content: Text('tag $tag already exists.')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text(
+              '${LocaleKeys.tr_data_tag.tr} $tag ${LocaleKeys.error_data_already_exists.tr}')));
       throw Exception('Failed to add tag $tag: tag already exists.');
     }
     Either<Exception, AdminProductTagModel> zResponse =
         await client.addTag(AdminProductTagDTO(tag: tag));
     return zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(const SnackBar(content: Text('Connection Error')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
       throw Exception('Failed to add tag $tag: Connection Error: $exception');
     }, (tagModel) {
       return tagModel;
@@ -195,8 +198,8 @@ class AdminProductController extends GetxController {
   Future deleteTag(int id) async {
     Either<Exception, dio.Response> zResponse = await client.deleteTag(id);
     return zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(const SnackBar(content: Text('Connection Error')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
       throw Exception('tag deletion failed: Connection Error: $exception');
     }, (response) {
       return response;
@@ -227,23 +230,23 @@ class AdminProductController extends GetxController {
 
   String? validator(String? v) {
     if (v == null || v.isEmpty) {
-      return 'Field can not be empty';
+      return LocaleKeys.error_data_field_can_not_be_empty.tr;
     }
     return null;
   }
 
   String? inStockValidator(String? v) {
     if (v == null || v.isEmpty) {
-      return 'Field can not be empty';
+      return LocaleKeys.error_data_field_can_not_be_empty.tr;
     } else if (int.parse(v) < 0) {
-      return 'Invalid input';
+      return LocaleKeys.error_data_invalid_input_error.tr;
     }
     return null;
   }
 
   String? tagsValidator(String? tagsSet) {
     if (productTags.isEmpty) {
-      return 'At least one tag should be specified';
+      return LocaleKeys.error_data_at_least_one_tag_should_be_specified.tr;
     }
     return null;
   }

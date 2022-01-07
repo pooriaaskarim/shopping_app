@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopping_app/generated/locales.g.dart';
 import 'package:shopping_app/src/pages/admin/products_page/models/image_model.dart';
 import 'package:shopping_app/src/pages/admin/products_page/models/product_model.dart';
 import 'package:shopping_app/src/pages/admin/products_page/models/user_model.dart';
@@ -20,9 +21,9 @@ class AdminProductsController extends GetxController {
     Either<Exception, AdminUserModel> zResponse = await client.getUser(userID);
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: const Text('Connection Error'),
+          content: Text(LocaleKeys.error_data_connection_error.tr),
           action: SnackBarAction(
-              label: 'Retry',
+              label: LocaleKeys.error_data_retry.tr,
               onPressed: () {
                 getUser(userID);
               })));
@@ -60,9 +61,9 @@ class AdminProductsController extends GetxController {
         await client.getProductsList();
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: const Text('Couldn\'t retrieve products.'),
+          content: Text(LocaleKeys.error_data_couldnt_retrieve_products.tr),
           action: SnackBarAction(
-              label: 'Retry',
+              label: LocaleKeys.error_data_retry.tr,
               onPressed: () {
                 getProductsList();
               })));
@@ -87,18 +88,21 @@ class AdminProductsController extends GetxController {
     Either<Exception, AdminProductModel> zResponse =
         await client.updateProduct(productModel);
     return zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-        content: Text('Connection Error'),
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+        content: Text(LocaleKeys.error_data_connection_error.tr),
       ));
       throw Exception(exception);
     }, (model) async {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
         content: Text.rich(TextSpan(children: [
-          const TextSpan(text: 'Product '),
+          TextSpan(text: '${LocaleKeys.tr_data_product.tr} '),
           TextSpan(
               text: '${model.name} ',
               style: const TextStyle(fontWeight: FontWeight.bold)),
-          TextSpan(text: model.isEnabled ? 'enabled.' : 'disabled')
+          TextSpan(
+              text: model.isEnabled
+                  ? LocaleKeys.tr_data_enabled.tr
+                  : LocaleKeys.tr_data_disabled.tr)
         ])),
         duration: const Duration(seconds: 2),
       ));
@@ -111,16 +115,16 @@ class AdminProductsController extends GetxController {
     Either<Exception, dio.Response> zResponse =
         await client.deleteProduct(productModel);
     return zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-        content: Text('Connection Error'),
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+        content: Text(LocaleKeys.error_data_connection_error.tr),
       ));
       throw Exception(exception);
     }, (response) async {
       Either<Exception, dio.Response> zResponse =
           await client.deleteProductImage(productModel);
       zResponse.fold((exception) {
-        ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-          content: Text('Connection Error'),
+        ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text(LocaleKeys.error_data_connection_error.tr),
         ));
         throw Exception(exception);
       }, (response) async {

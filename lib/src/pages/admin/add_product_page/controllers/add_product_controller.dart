@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopping_app/generated/locales.g.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_dto.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_image_dto.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_image_model.dart';
@@ -25,15 +26,16 @@ class AdminAddProductController extends GetxController {
 
   Future<AdminAddProductTagModel> addTag(String tag) async {
     if (tags.map((e) => e.tag).toList().contains(tag)) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(SnackBar(content: Text('tag $tag already exists.')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text(
+              '${LocaleKeys.tr_data_tag.tr} $tag ${LocaleKeys.error_data_already_exists.tr}')));
       throw Exception('Failed to add tag $tag: tag already exists.');
     }
     Either<Exception, AdminAddProductTagModel> zResponse =
         await client.addTag(AdminAddProductTagDTO(tag: tag));
     return zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(const SnackBar(content: Text('Connection Error')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
       throw Exception('Failed to add tag $tag: Connection Error: $exception');
     }, (tagModel) {
       return tagModel;
@@ -43,8 +45,8 @@ class AdminAddProductController extends GetxController {
   Future<dio.Response> deleteTag(int id) async {
     Either<Exception, dio.Response> zResponse = await client.deleteTag(id);
     return zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(const SnackBar(content: Text('Connection Error')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
       throw Exception('tag deletion failed: Connection Error: $exception');
     }, (response) {
       return response;
@@ -67,8 +69,8 @@ class AdminAddProductController extends GetxController {
     Either<Exception, AdminAddProductImageModel> zResponse =
         await client.uploadImage(dto);
     return zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(const SnackBar(content: Text('Connection Error')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
       throw Left(
           Exception('Failed to add Image: Connection Error: $exception'));
     }, (imageModel) {
@@ -82,8 +84,8 @@ class AdminAddProductController extends GetxController {
       AdminAddProductImageModel imageModel = await uploadImage();
       _imageID = imageModel.id;
     } else {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-          const SnackBar(content: Text('Products must have a picture.')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text(LocaleKeys.error_data_products_must_have_an_image.tr)));
       throw Exception('Product Image empty');
     }
 
@@ -98,12 +100,13 @@ class AdminAddProductController extends GetxController {
     Either<Exception, AdminAddProductModel> zResponse =
         await client.addProduct(dto);
     zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!)
-          .showSnackBar(const SnackBar(content: Text('Connection Error')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
       throw Exception(exception);
     }, (response) async {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-          SnackBar(content: Text('Product ${nameController.text} added.')));
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content: Text(
+              '${LocaleKeys.tr_data_product.tr} ${nameController.text} ${LocaleKeys.tr_data_added.tr}.')));
       await Future.delayed(const Duration(seconds: 2));
       Get.back();
     });
@@ -111,23 +114,23 @@ class AdminAddProductController extends GetxController {
 
   String? validator(String? v) {
     if (v == null || v.isEmpty) {
-      return 'Field can not be empty';
+      return LocaleKeys.error_data_field_can_not_be_empty.tr;
     }
     return null;
   }
 
   String? inStockValidator(String? v) {
     if (v == null || v.isEmpty) {
-      return 'Field can not be empty';
+      return LocaleKeys.error_data_field_can_not_be_empty.tr;
     } else if (int.parse(v) < 0) {
-      return 'Invalid input';
+      return LocaleKeys.error_data_invalid_input_error.tr;
     }
     return null;
   }
 
   String? tagsValidator(String? tagsSet) {
     if (productTags.isEmpty) {
-      return 'At least one tag should be specified';
+      return LocaleKeys.error_data_at_least_one_tag_should_be_specified.tr;
     }
     return null;
   }

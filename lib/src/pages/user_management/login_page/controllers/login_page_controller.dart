@@ -10,20 +10,19 @@ class LoginController extends GetxController {
     {'value': true, 'icon': const Icon(Icons.visibility_off)},
     {'value': false, 'icon': const Icon(Icons.visibility)}
   ].obs;
-  RxBool keepSignedIn = false.obs; //TODO: session management
+  // RxBool keepSignedIn = false.obs; //TODO: session management
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final client = LoginClient();
 
-//TODO: Clean[your]Code
   login() async {
     Either<Exception, List<LoginUserModel>> zResponse =
         await client.getUsersList();
     zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content: const Text('Connection Error'),
+          content: Text(LocaleKeys.error_data_connection_error.tr),
           action: SnackBarAction(
-              label: 'Retry',
+              label: LocaleKeys.error_data_retry.tr,
               onPressed: () {
                 login();
               })));
@@ -42,13 +41,15 @@ class LoginController extends GetxController {
                 parameters: {'id': '${user.id}'});
           }
         } else {
-          ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-              content: Text('Wrong username/password. Try again.')));
+          ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+              content:
+                  Text(LocaleKeys.error_data_wrong_credentials_try_again.tr)));
           passwordController.clear();
         }
       } else {
-        ScaffoldMessenger.of(Get.context!).showSnackBar(const SnackBar(
-            content: Text('Wrong username/password. Try again.')));
+        ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+            content:
+                Text(LocaleKeys.error_data_wrong_credentials_try_again.tr)));
         passwordController.clear();
       }
     });
@@ -56,7 +57,7 @@ class LoginController extends GetxController {
 
   String? validator(String? v) {
     if (v == null || v.isEmpty) {
-      return 'Field can not be empty';
+      return LocaleKeys.error_data_field_can_not_be_empty.tr;
     }
     return null;
   }

@@ -33,9 +33,9 @@ class SignUpPage extends StatelessWidget {
                         vertical: Utils.smallPadding),
                     child: TextFormField(
                       autofocus: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your name',
-                        labelText: 'Name',
+                      decoration: InputDecoration(
+                        hintText: LocaleKeys.tr_data_enter_your_name.tr,
+                        labelText: LocaleKeys.tr_data_name.tr,
                       ),
                       validator: controller.validator,
                       controller: controller.nameController,
@@ -46,9 +46,9 @@ class SignUpPage extends StatelessWidget {
                         horizontal: Utils.largePadding,
                         vertical: Utils.smallPadding),
                     child: TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your surname',
-                        labelText: 'Surname',
+                      decoration: InputDecoration(
+                        hintText: LocaleKeys.tr_data_enter_your_surname.tr,
+                        labelText: LocaleKeys.tr_data_surname.tr,
                       ),
                       validator: controller.validator,
                       controller: controller.surnameController,
@@ -59,10 +59,10 @@ class SignUpPage extends StatelessWidget {
                         horizontal: Utils.largePadding,
                         vertical: Utils.smallPadding),
                     child: TextFormField(
-                      decoration: const InputDecoration(
-                          hintText: 'Enter your username',
-                          labelText: 'Username',
-                          suffixIcon: Icon(Icons.person)),
+                      decoration: InputDecoration(
+                          hintText: LocaleKeys.tr_data_enter_your_username.tr,
+                          labelText: LocaleKeys.tr_data_username.tr,
+                          suffixIcon: const Icon(Icons.person)),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: controller.usernameValidator,
                       controller: controller.usernameController,
@@ -81,8 +81,8 @@ class SignUpPage extends StatelessWidget {
                                     controller.passwordIsVisible.removeAt(0));
                               },
                             ),
-                            hintText: 'Enter your password',
-                            labelText: 'Password',
+                            hintText: LocaleKeys.tr_data_enter_your_password.tr,
+                            labelText: LocaleKeys.tr_data_password.tr,
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           obscureText: controller.passwordIsVisible[0]['value'],
@@ -105,8 +105,9 @@ class SignUpPage extends StatelessWidget {
                                         .removeAt(0));
                               },
                             ),
-                            hintText: 'Enter your password again',
-                            labelText: 'Re-type Password',
+                            hintText:
+                                LocaleKeys.tr_data_enter_your_password_again.tr,
+                            labelText: LocaleKeys.tr_data_re_type_password.tr,
                           ),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           obscureText: controller.retypePasswordIsVisible[0]
@@ -122,9 +123,9 @@ class SignUpPage extends StatelessWidget {
                     child: TextFormField(
                       minLines: 4,
                       maxLines: 5,
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your address',
-                        labelText: 'Address',
+                      decoration: InputDecoration(
+                        hintText: LocaleKeys.tr_data_enter_your_address.tr,
+                        labelText: LocaleKeys.tr_data_address.tr,
                       ),
                       controller: controller.addressController,
                       validator: controller.validator,
@@ -141,7 +142,7 @@ class SignUpPage extends StatelessWidget {
                           }
                         },
                         child: Text(
-                          'Sign Me Up',
+                          LocaleKeys.tr_data_sign_me_up.tr,
                           style:
                               TextStyle(color: MaterialTheme.primaryColor[50]),
                         )),
