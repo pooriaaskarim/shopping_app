@@ -216,7 +216,7 @@ class AdminProductsPage extends StatelessWidget {
                             AdminProductModel.fromMap(
                                 controller.productsList[index].toMap());
                         controller
-                            .toggleProduct(controller.productsList[index].id);
+                            .toggleProduct(controller.productsList[index]);
                       }),
                 ),
                 Container(

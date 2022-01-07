@@ -45,7 +45,7 @@ class AdminProductsController extends GetxController {
     });
   }
 
-//Fetch product and product images from server
+//Fetch products and product images from server
   Future initProducts({bool refresh = false}) async {
     if (refresh) {
       productsList.clear();
@@ -83,10 +83,7 @@ class AdminProductsController extends GetxController {
   }
 
 //Update product based on productLists items
-  Future toggleProduct(int productID) async {
-    AdminProductModel productModel = productsList.where((product) {
-      return product.id == productID;
-    }).toList()[0];
+  Future toggleProduct(AdminProductModel productModel) async {
     Either<Exception, AdminProductModel> zResponse =
         await client.updateProduct(productModel);
     return zResponse.fold((exception) {
@@ -141,7 +138,6 @@ class AdminProductsController extends GetxController {
       // userImage.value = await getUserImage(user.value!.imageID);
     } //TODO: handle user retrieve error
     await initProducts();
-
     super.onInit();
   }
 

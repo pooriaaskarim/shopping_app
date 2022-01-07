@@ -22,9 +22,8 @@ class SignUpPage extends StatelessWidget {
                 children: [
                   Center(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          // horizontal: Utils.largePadding,
-                          vertical: Utils.largePadding),
+                      padding:
+                          EdgeInsets.symmetric(vertical: Utils.largePadding),
                       child: _imagePicker(context),
                     ),
                   ),

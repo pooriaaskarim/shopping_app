@@ -23,6 +23,16 @@ class ShoppingApp extends StatelessWidget {
       theme: MaterialTheme().themeData,
       getPages: [...ShoppingAppParameters.pages],
       initialRoute: RouteNames.splashScreen,
+      //localization
+      translations: LocalizationService(),
+      translationsKeys: AppTranslation.translations,
+      locale: const Locale('fa', 'IR'),
     );
   }
+}
+
+class LocalizationService extends Translations {
+  @override
+  Map<String, Map<String, String>> get keys =>
+      {'fa_Ir': Locales.fa_IR, 'en_Us': Locales.en_US};
 }
