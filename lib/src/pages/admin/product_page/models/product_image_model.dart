@@ -16,7 +16,7 @@ class AdminProductImageModel extends ImageModel {
   factory AdminProductImageModel.fromMap(Map<String, dynamic> map) {
     return AdminProductImageModel(
       id: map['id'] as int,
-      image: map['image'].cast<int>(),
+      image: Uint8List.fromList(map['image'].cast<int>()),
     );
   }
 }
