@@ -77,20 +77,6 @@ class AdminProductController extends GetxController {
     productTags.addAll(product.value!.tags);
   }
 
-  Future<ImageModel> uploadImage() async {
-    ImageDTO dto = ImageDTO(
-        image: productImagerHandler.imageFile.value!.readAsBytesSync());
-    Either<Exception, ImageModel> zResponse = await client.uploadImage(dto);
-    return zResponse.fold((exception) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-          SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
-      throw Left(
-          Exception('Failed to add Image: Connection Error: $exception'));
-    }, (imageModel) {
-      return imageModel;
-    });
-  }
-
   Future toggleProduct() async {
     product.value!.isEnabled = isEnabled.value;
     Either<Exception, ProductModel> zResponse =
@@ -117,11 +103,32 @@ class AdminProductController extends GetxController {
     });
   }
 
+  Future updateImage() async {
+    Either<Exception, dio.Response> zResponse =
+        await client.deleteProductImage(product.value!);
+    return zResponse.fold((exception) {
+      ScaffoldMessenger.of(Get.context!).showSnackBar(
+          SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
+      throw Exception(exception);
+    }, (response) async {
+      ImageDTO dto = ImageDTO(
+          image: productImagerHandler.imageFile.value!.readAsBytesSync());
+      Either<Exception, ImageModel> zResponse = await client.uploadImage(dto);
+      return zResponse.fold((exception) {
+        ScaffoldMessenger.of(Get.context!).showSnackBar(
+            SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
+        throw Exception(exception);
+      }, (imageModel) {
+        return imageModel;
+      });
+    });
+  }
+
   Future updateProduct() async {
     int _imageID;
     if (productImagerHandler.imageFile.value != null) {
-      ImageModel updateImageModel = await uploadImage();
-      _imageID = updateImageModel.id;
+      ImageModel updatedImageModel = await updateImage();
+      _imageID = updatedImageModel.id;
     } else {
       _imageID = product.value!.imageID;
     }
@@ -211,17 +218,6 @@ class AdminProductController extends GetxController {
       throw Exception(exception);
     }, (list) {
       return list;
-    });
-  }
-
-  Future updateImage() async {
-    ImageDTO dto = ImageDTO(
-        image: productImagerHandler.imageFile.value!.readAsBytesSync());
-    Either<Exception, ImageModel> zResponse = await client.uploadImage(dto);
-    return zResponse.fold((exception) {
-      throw Exception(exception); //TODO: handle Error
-    }, (imageModel) {
-      return imageModel;
     });
   }
 
