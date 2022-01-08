@@ -5,8 +5,8 @@ import 'package:shopping_app/src/pages/admin/product_page/commons/product_bindin
 import 'package:shopping_app/src/pages/admin/product_page/views/product_page.dart';
 import 'package:shopping_app/src/pages/admin/products_page/commons/products_bindings.dart';
 import 'package:shopping_app/src/pages/admin/products_page/views/products_page.dart';
-import 'package:shopping_app/src/pages/search/commons/search_bindings.dart';
-import 'package:shopping_app/src/pages/search/views/search_page.dart';
+import 'package:shopping_app/src/pages/admin/search/commons/search_bindings.dart';
+import 'package:shopping_app/src/pages/admin/search/views/search_page.dart';
 import 'package:shopping_app/src/pages/splash_screen/splash_screen.dart';
 import 'package:shopping_app/src/pages/user_management/login_page/commons/login_bindings.dart';
 import 'package:shopping_app/src/pages/user_management/login_page/views/login_page.dart';
@@ -54,8 +54,8 @@ class RoutePages {
     ),
     GetPage(
       name: RouteNames.searchPage,
-      page: () => SearchPage(),
-      binding: SearchBinding(),
+      page: () => AdminSearchPage(),
+      binding: AdminSearchBinding(),
     ),
   ];
 }
