@@ -76,7 +76,15 @@ class AdminProductsController extends GetxController {
     Either<Exception, List<ImageModel>> zResponse =
         await client.getProductImages();
     return zResponse.fold((exception) {
-      throw Exception(exception); //TODO: handle error
+      ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          content:
+              Text(LocaleKeys.error_data_couldnt_retrieve_product_images.tr),
+          action: SnackBarAction(
+              label: LocaleKeys.error_data_retry.tr,
+              onPressed: () {
+                getProductsList();
+              })));
+      throw Exception(exception);
     }, (list) {
       return list;
     });

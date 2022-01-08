@@ -60,7 +60,7 @@ class AdminProductsPage extends StatelessWidget {
         ));
   }
 
-  GestureDetector _productCard(int index) {
+  Widget _productCard(int index) {
     return GestureDetector(
       onTap: () => Get.toNamed(RouteNames.adminProduct,
           parameters: {'productID': '${controller.productsList[index].id}'}),
@@ -144,7 +144,7 @@ class AdminProductsPage extends StatelessWidget {
     );
   }
 
-  ClipRRect _productImage(int index) {
+  Widget _productImage(int index) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(13),
       child: Stack(
