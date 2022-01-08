@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shopping_app/shopping_app.dart';
 import 'package:shopping_app/src/pages/admin/product_page/controllers/product_controller.dart';
-import 'package:shopping_app/src/pages/admin/product_page/models/product_tag_model.dart';
+import 'package:shopping_app/src/pages/shared/models/tag/tag_model.dart';
 import 'package:shopping_app/src/pages/shared/widgets/custom_circular_progress_indicator.dart';
 
 class AdminProductPage extends StatelessWidget {
@@ -327,7 +327,7 @@ class AdminProductPage extends StatelessWidget {
   }
 
   Widget _tagsFormField() {
-    return RawAutocomplete<AdminProductTagModel>(
+    return RawAutocomplete<TagModel>(
       textEditingController: controller.tagController,
       focusNode: FocusNode(),
       optionsBuilder: (v) {
@@ -351,7 +351,7 @@ class AdminProductPage extends StatelessWidget {
                       color: Color(snapshot!.isEmpty ? 0xff707070 : 0xffc25200),
                       onPressed: () async {
                         if (snapshot.isNotEmpty) {
-                          AdminProductTagModel tag =
+                          TagModel tag =
                               await controller.addTag(tagController.text);
                           ScaffoldMessenger.of(Get.context!).showSnackBar(
                               SnackBar(
@@ -379,8 +379,8 @@ class AdminProductPage extends StatelessWidget {
             });
       },
       optionsViewBuilder: (BuildContext context,
-          AutocompleteOnSelected<AdminProductTagModel> onSelected,
-          Iterable<AdminProductTagModel> options) {
+          AutocompleteOnSelected<TagModel> onSelected,
+          Iterable<TagModel> options) {
         return Align(
           alignment: Alignment.topLeft,
           child: Material(

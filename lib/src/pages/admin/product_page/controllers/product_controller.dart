@@ -3,22 +3,22 @@ import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopping_app/shopping_app.dart';
-import 'package:shopping_app/src/pages/admin/product_page/models/product_image_dto.dart';
-import 'package:shopping_app/src/pages/admin/product_page/models/product_image_model.dart';
-import 'package:shopping_app/src/pages/admin/product_page/models/product_model.dart';
-import 'package:shopping_app/src/pages/admin/product_page/models/product_tag_dto.dart';
-import 'package:shopping_app/src/pages/admin/product_page/models/product_tag_model.dart';
 import 'package:shopping_app/src/pages/admin/product_page/repositories/product_repository.dart';
 import 'package:shopping_app/src/pages/shared/image_handler.dart';
+import 'package:shopping_app/src/pages/shared/models/image/image_dto.dart';
+import 'package:shopping_app/src/pages/shared/models/image/image_model.dart';
+import 'package:shopping_app/src/pages/shared/models/product/product_model.dart';
+import 'package:shopping_app/src/pages/shared/models/tag/tag_dto.dart';
+import 'package:shopping_app/src/pages/shared/models/tag/tag_model.dart';
 
 class AdminProductController extends GetxController {
   final client = ProductClient();
   int productID = 0;
   RxBool editingMode = false.obs;
   RxBool isEnabled = false.obs;
-  Rxn<AdminProductModel> product = Rxn<AdminProductModel>();
-  Rxn<AdminProductImageModel> productImage = Rxn<AdminProductImageModel>();
-  RxList<AdminProductTagModel> tags = <AdminProductTagModel>[].obs;
+  Rxn<ProductModel> product = Rxn<ProductModel>();
+  Rxn<ImageModel> productImage = Rxn<ImageModel>();
+  RxList<TagModel> tags = <TagModel>[].obs;
   RxSet<String> productTags = <String>{}.obs;
   TextEditingController nameController = TextEditingController();
   TextEditingController inStockController = TextEditingController();
@@ -27,8 +27,8 @@ class AdminProductController extends GetxController {
   TextEditingController tagController = TextEditingController();
   ImageHandler productImagerHandler = ImageHandler();
 
-  Future<AdminProductModel> getProduct(int productID) async {
-    Either<Exception, AdminProductModel> zResponse =
+  Future<ProductModel> getProduct(int productID) async {
+    Either<Exception, ProductModel> zResponse =
         await client.getProduct(productID);
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -45,8 +45,8 @@ class AdminProductController extends GetxController {
     });
   }
 
-  Future<AdminProductImageModel> getProductImage(int imageID) async {
-    Either<Exception, AdminProductImageModel> zResponse =
+  Future<ImageModel> getProductImage(int imageID) async {
+    Either<Exception, ImageModel> zResponse =
         await client.getProductImage(imageID);
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -77,11 +77,10 @@ class AdminProductController extends GetxController {
     productTags.addAll(product.value!.tags);
   }
 
-  Future<AdminProductImageModel> uploadImage() async {
-    AdminProductImageDTO dto = AdminProductImageDTO(
+  Future<ImageModel> uploadImage() async {
+    ImageDTO dto = ImageDTO(
         image: productImagerHandler.imageFile.value!.readAsBytesSync());
-    Either<Exception, AdminProductImageModel> zResponse =
-        await client.uploadImage(dto);
+    Either<Exception, ImageModel> zResponse = await client.uploadImage(dto);
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
           SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
@@ -94,7 +93,7 @@ class AdminProductController extends GetxController {
 
   Future toggleProduct() async {
     product.value!.isEnabled = isEnabled.value;
-    Either<Exception, AdminProductModel> zResponse =
+    Either<Exception, ProductModel> zResponse =
         await client.updateProduct(product.value!);
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
@@ -121,12 +120,12 @@ class AdminProductController extends GetxController {
   Future updateProduct() async {
     int _imageID;
     if (productImagerHandler.imageFile.value != null) {
-      AdminProductImageModel updateImageModel = await uploadImage();
+      ImageModel updateImageModel = await uploadImage();
       _imageID = updateImageModel.id;
     } else {
       _imageID = product.value!.imageID;
     }
-    AdminProductModel updateModel = AdminProductModel(
+    ProductModel updateModel = ProductModel(
         id: product.value!.id,
         name: nameController.text,
         description: descriptionController.text,
@@ -135,7 +134,7 @@ class AdminProductController extends GetxController {
         inStock: int.parse(inStockController.text),
         imageID: _imageID,
         isEnabled: isEnabled.value);
-    Either<Exception, AdminProductModel> zResponse =
+    Either<Exception, ProductModel> zResponse =
         await client.updateProduct(updateModel);
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -156,7 +155,7 @@ class AdminProductController extends GetxController {
     });
   }
 
-  Future deleteProduct(AdminProductModel productModel) async {
+  Future deleteProduct(ProductModel productModel) async {
     Either<Exception, dio.Response> zResponse =
         await client.deleteProduct(productModel);
     return zResponse.fold((exception) {
@@ -184,8 +183,8 @@ class AdminProductController extends GetxController {
               '${LocaleKeys.tr_data_tag.tr} $tag ${LocaleKeys.error_data_already_exists.tr}')));
       throw Exception('Failed to add tag $tag: tag already exists.');
     }
-    Either<Exception, AdminProductTagModel> zResponse =
-        await client.addTag(AdminProductTagDTO(tag: tag));
+    Either<Exception, TagModel> zResponse =
+        await client.addTag(TagDTO(tag: tag));
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
           SnackBar(content: Text(LocaleKeys.error_data_connection_error.tr)));
@@ -207,8 +206,7 @@ class AdminProductController extends GetxController {
   }
 
   Future getTags() async {
-    Either<Exception, List<AdminProductTagModel>> zResponse =
-        await client.getTagsList();
+    Either<Exception, List<TagModel>> zResponse = await client.getTagsList();
     return zResponse.fold((exception) {
       throw Exception(exception);
     }, (list) {
@@ -217,10 +215,9 @@ class AdminProductController extends GetxController {
   }
 
   Future updateImage() async {
-    AdminProductImageDTO dto = AdminProductImageDTO(
+    ImageDTO dto = ImageDTO(
         image: productImagerHandler.imageFile.value!.readAsBytesSync());
-    Either<Exception, AdminProductImageModel> zResponse =
-        await client.uploadImage(dto);
+    Either<Exception, ImageModel> zResponse = await client.uploadImage(dto);
     return zResponse.fold((exception) {
       throw Exception(exception); //TODO: handle Error
     }, (imageModel) {

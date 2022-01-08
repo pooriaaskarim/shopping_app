@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopping_app/shopping_app.dart';
 import 'package:shopping_app/src/pages/admin/products_page/controllers/products_page_controller.dart';
-import 'package:shopping_app/src/pages/admin/products_page/models/product_model.dart';
+import 'package:shopping_app/src/pages/shared/models/product/product_model.dart';
 import 'package:shopping_app/src/pages/shared/widgets/app_icon_wrapper.dart';
 
 class AdminProductsPage extends StatelessWidget {
@@ -19,8 +19,11 @@ class AdminProductsPage extends StatelessWidget {
           actions: [
             Padding(
               padding: EdgeInsets.all(Utils.smallPadding),
-              child:
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
+              child: IconButton(
+                  onPressed: () {
+                    Get.toNamed(RouteNames.searchPage);
+                  },
+                  icon: const Icon(Icons.search)),
             )
           ],
         ),
@@ -214,9 +217,8 @@ class AdminProductsPage extends StatelessWidget {
                       value: controller.productsList[index].isEnabled,
                       onChanged: (value) {
                         controller.productsList[index].isEnabled = value!;
-                        controller.productsList[index] =
-                            AdminProductModel.fromMap(
-                                controller.productsList[index].toMap());
+                        controller.productsList[index] = ProductModel.fromMap(
+                            controller.productsList[index].toMap());
                         controller
                             .toggleProduct(controller.productsList[index]);
                       }),

@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopping_app/shopping_app.dart';
-import 'package:shopping_app/src/pages/user_management/login_page/models/login_user_model.dart';
+import 'package:shopping_app/src/pages/shared/models/user/user_model.dart';
 import 'package:shopping_app/src/pages/user_management/login_page/repositories/login_repository.dart';
 
 class LoginController extends GetxController {
@@ -16,8 +16,7 @@ class LoginController extends GetxController {
   final client = LoginClient();
 
   login() async {
-    Either<Exception, List<LoginUserModel>> zResponse =
-        await client.getUsersList();
+    Either<Exception, List<UserModel>> zResponse = await client.getUsersList();
     zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text(LocaleKeys.error_data_connection_error.tr),
@@ -32,7 +31,7 @@ class LoginController extends GetxController {
           .map((e) => e.username)
           .toList()
           .contains(usernameController.text)) {
-        LoginUserModel user = users
+        UserModel user = users
             .where((element) => element.username == usernameController.text)
             .toList()[0];
         if (user.password == passwordController.text) {

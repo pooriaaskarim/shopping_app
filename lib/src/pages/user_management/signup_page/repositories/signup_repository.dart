@@ -1,28 +1,27 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:shopping_app/src/infrastructures/commons/repository_urls.dart';
+import 'package:shopping_app/src/pages/shared/models/image/image_dto.dart';
+import 'package:shopping_app/src/pages/shared/models/user/user_dto.dart';
+import 'package:shopping_app/src/pages/shared/models/user/user_model.dart';
 import 'package:shopping_app/src/pages/shared/repository/main_repository.dart';
-import 'package:shopping_app/src/pages/user_management/signup_page/models/signup_user_dto.dart';
-import 'package:shopping_app/src/pages/user_management/signup_page/models/user_image_dto.dart';
-
-import '../models/signup_user_model.dart';
 
 class SignUpClient extends Client {
-  Future<Either<Exception, List<SignUpUserModel>>> getUsersList() async {
+  Future<Either<Exception, List<UserModel>>> getUsersList() async {
     // Retrieve Users List From Server
-    List<SignUpUserModel> users = <SignUpUserModel>[];
+    List<UserModel> users = <UserModel>[];
     var zResponse = await dioGet(RepositoryUrls.users());
     return zResponse.fold((exception) {
       return Left(Exception(exception));
     }, (response) {
       for (Map<String, dynamic> item in response.data) {
-        users.add(SignUpUserModel.fromJsonMap(item));
+        users.add(UserModel.fromMap(item));
       }
       return Right(users);
     });
   }
 
-  Future<Either<Exception, Response>> signUserUp(SignUpUserDTO dto) async {
+  Future<Either<Exception, Response>> signUserUp(UserDTO dto) async {
     Either<Exception, Response> zResponse =
         await dioPost(RepositoryUrls.users(), dto.toMap());
     return zResponse.fold((exception) {
@@ -32,7 +31,7 @@ class SignUpClient extends Client {
     });
   }
 
-  Future<Either<Exception, Response>> uploadImage(UserImageDTO dto) async {
+  Future<Either<Exception, Response>> uploadImage(ImageDTO dto) async {
     Either<Exception, Response> zResponse =
         await dioPost(RepositoryUrls.userImages(), dto.toMap());
     return zResponse.fold((exception) {
@@ -42,9 +41,3 @@ class SignUpClient extends Client {
     });
   }
 }
-
-// void main() async {
-//   var client = SignUpClient();
-//   var users = await client.getUsernamesList();
-//   print(users);
-// }

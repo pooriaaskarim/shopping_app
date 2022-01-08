@@ -3,22 +3,21 @@ import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopping_app/generated/locales.g.dart';
-import 'package:shopping_app/src/pages/admin/products_page/models/image_model.dart';
-import 'package:shopping_app/src/pages/admin/products_page/models/product_model.dart';
-import 'package:shopping_app/src/pages/admin/products_page/models/user_model.dart';
 import 'package:shopping_app/src/pages/admin/products_page/repositories/products_repository.dart';
+import 'package:shopping_app/src/pages/shared/models/image/image_model.dart';
+import 'package:shopping_app/src/pages/shared/models/product/product_model.dart';
+import 'package:shopping_app/src/pages/shared/models/user/user_model.dart';
 
 class AdminProductsController extends GetxController {
   int userID = 0;
-  Rxn<ProductsPageImageModel> userImage = Rxn<ProductsPageImageModel>();
-  Rxn<AdminUserModel> user = Rxn<AdminUserModel>();
-  RxList<AdminProductModel> productsList = <AdminProductModel>[].obs;
-  RxList<ProductsPageImageModel> productImagesList =
-      <ProductsPageImageModel>[].obs;
+  Rxn<ImageModel> userImage = Rxn<ImageModel>();
+  Rxn<UserModel> user = Rxn<UserModel>();
+  RxList<ProductModel> productsList = <ProductModel>[].obs;
+  RxList<ImageModel> productImagesList = <ImageModel>[].obs;
   final client = AdminProductsClient();
 
   Future getUser(int userID) async {
-    Either<Exception, AdminUserModel> zResponse = await client.getUser(userID);
+    Either<Exception, UserModel> zResponse = await client.getUser(userID);
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
           content: Text(LocaleKeys.error_data_connection_error.tr),
@@ -36,8 +35,8 @@ class AdminProductsController extends GetxController {
     });
   }
 
-  Future<ProductsPageImageModel> getUserImage(int imageID) async {
-    Either<Exception, ProductsPageImageModel> zResponse =
+  Future<ImageModel> getUserImage(int imageID) async {
+    Either<Exception, ImageModel> zResponse =
         await client.getUserImage(imageID);
     return zResponse.fold((exception) {
       throw Exception(exception); //TODO: handle error
@@ -56,8 +55,8 @@ class AdminProductsController extends GetxController {
     productsList.addAll(await getProductsList());
   }
 
-  Future<List<AdminProductModel>> getProductsList() async {
-    Either<Exception, List<AdminProductModel>> zResponse =
+  Future<List<ProductModel>> getProductsList() async {
+    Either<Exception, List<ProductModel>> zResponse =
         await client.getProductsList();
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -73,8 +72,8 @@ class AdminProductsController extends GetxController {
     });
   }
 
-  Future<List<ProductsPageImageModel>> getProductImages() async {
-    Either<Exception, List<ProductsPageImageModel>> zResponse =
+  Future<List<ImageModel>> getProductImages() async {
+    Either<Exception, List<ImageModel>> zResponse =
         await client.getProductImages();
     return zResponse.fold((exception) {
       throw Exception(exception); //TODO: handle error
@@ -84,8 +83,8 @@ class AdminProductsController extends GetxController {
   }
 
 //Update product based on productLists items
-  Future toggleProduct(AdminProductModel productModel) async {
-    Either<Exception, AdminProductModel> zResponse =
+  Future toggleProduct(ProductModel productModel) async {
+    Either<Exception, ProductModel> zResponse =
         await client.updateProduct(productModel);
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
@@ -111,7 +110,7 @@ class AdminProductsController extends GetxController {
     });
   }
 
-  Future deleteProduct(AdminProductModel productModel) async {
+  Future deleteProduct(ProductModel productModel) async {
     Either<Exception, dio.Response> zResponse =
         await client.deleteProduct(productModel);
     return zResponse.fold((exception) {

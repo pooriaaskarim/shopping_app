@@ -15,17 +15,17 @@ class TagModel {
     }''';
   }
 
-// Map<String, dynamic> toMap() {
-  //   return {
-  //     'id': this.id,
-  //     'tag': this.tag,
-  //   };
-  // }
-  //
-  // factory TagModel.fromMap(Map<String, dynamic> map) {
-  //   return TagModel(
-  //     id: map['id'] as String,
-  //     tag: map['tag'] as String,
-  //   );
-  // }
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'tag': tag,
+    };
+  }
+
+  factory TagModel.fromMap(Map<String, dynamic> map) {
+    return TagModel(
+      id: map['id'],
+      tag: map['tag'],
+    );
+  }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shopping_app/shopping_app.dart';
 import 'package:shopping_app/src/pages/admin/add_product_page/controllers/add_product_controller.dart';
-import 'package:shopping_app/src/pages/admin/add_product_page/models/add_product_tag_model.dart';
+import 'package:shopping_app/src/pages/shared/models/tag/tag_model.dart';
 
 class AdminAddProductPage extends StatelessWidget {
   AdminAddProductPage({Key? key}) : super(key: key);
@@ -225,7 +225,7 @@ class AdminAddProductPage extends StatelessWidget {
   }
 
   Widget _tagsFormField() {
-    return RawAutocomplete<AdminAddProductTagModel>(
+    return RawAutocomplete<TagModel>(
       textEditingController: controller.tagController,
       focusNode: FocusNode(),
       optionsBuilder: (v) {
@@ -250,7 +250,7 @@ class AdminAddProductPage extends StatelessWidget {
                       color: Color(snapshot!.isEmpty ? 0xff707070 : 0xffc25200),
                       onPressed: () async {
                         if (snapshot.isNotEmpty) {
-                          AdminAddProductTagModel tag =
+                          TagModel tag =
                               await controller.addTag(tagController.text);
                           ScaffoldMessenger.of(Get.context!).showSnackBar(
                               SnackBar(
@@ -278,8 +278,8 @@ class AdminAddProductPage extends StatelessWidget {
             });
       },
       optionsViewBuilder: (BuildContext context,
-          AutocompleteOnSelected<AdminAddProductTagModel> onSelected,
-          Iterable<AdminAddProductTagModel> options) {
+          AutocompleteOnSelected<TagModel> onSelected,
+          Iterable<TagModel> options) {
         return Align(
           alignment: Alignment.topLeft,
           child: Material(

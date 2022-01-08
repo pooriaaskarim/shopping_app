@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopping_app/shopping_app.dart';
 import 'package:shopping_app/src/pages/shared/image_handler.dart';
-import 'package:shopping_app/src/pages/user_management/signup_page/models/signup_user_dto.dart';
-import 'package:shopping_app/src/pages/user_management/signup_page/models/signup_user_model.dart';
-import 'package:shopping_app/src/pages/user_management/signup_page/models/user_image_dto.dart';
+import 'package:shopping_app/src/pages/shared/models/image/image_dto.dart';
+import 'package:shopping_app/src/pages/shared/models/user/user_dto.dart';
+import 'package:shopping_app/src/pages/shared/models/user/user_model.dart';
 import 'package:shopping_app/src/pages/user_management/signup_page/repositories/signup_repository.dart';
 
 class SignUpController extends GetxController {
@@ -33,8 +33,7 @@ class SignUpController extends GetxController {
   final client = SignUpClient();
 
   Future getUsers() async {
-    Either<Exception, List<SignUpUserModel>> zResponse =
-        await client.getUsersList();
+    Either<Exception, List<UserModel>> zResponse = await client.getUsersList();
     return zResponse.fold((exception) {
       throw Exception(exception);
     }, (list) {
@@ -43,8 +42,8 @@ class SignUpController extends GetxController {
   }
 
   Future<int> uploadImage() async {
-    UserImageDTO dto = UserImageDTO(
-        image: userImageHandler.imageFile.value!.readAsBytesSync());
+    ImageDTO dto =
+        ImageDTO(image: userImageHandler.imageFile.value!.readAsBytesSync());
     Either<Exception, dio.Response> zResponse = await client.uploadImage(dto);
     return zResponse.fold((exception) {
       ScaffoldMessenger.of(Get.context!).showSnackBar(
@@ -64,7 +63,7 @@ class SignUpController extends GetxController {
     if (userImageHandler.imageFile.value != null) {
       _imageID = await uploadImage();
     }
-    var dto = SignUpUserDTO(
+    var dto = UserDTO(
         name: nameController.text,
         surname: surnameController.text,
         username: usernameController.text,
@@ -94,7 +93,7 @@ class SignUpController extends GetxController {
   }
 
   //List used to check if entered username is already taken
-  final List<SignUpUserModel> users = [];
+  final List<UserModel> users = [];
 
   String? usernameValidator(String? v) {
     if (v == null || v.isEmpty) {

@@ -1,4 +1,4 @@
-abstract class UserModel {
+class UserModel {
   int id, imageID;
   String name, surname, username, password, address;
   bool isAdmin;
@@ -24,5 +24,17 @@ abstract class UserModel {
     password: $password,
     address: $address,
     isAdmin: $isAdmin}''';
+  }
+
+  factory UserModel.fromMap(Map<String, dynamic> jsonMap) {
+    return UserModel(
+        id: jsonMap['id'],
+        name: jsonMap['name'],
+        surname: jsonMap['surname'],
+        username: jsonMap['username'],
+        password: jsonMap['password'],
+        address: jsonMap['address'],
+        imageID: jsonMap['imageID'],
+        isAdmin: jsonMap['isAdmin']);
   }
 }

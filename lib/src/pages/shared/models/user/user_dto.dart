@@ -1,4 +1,4 @@
-abstract class UserDTO {
+class UserDTO {
   String name, surname, username, password, address;
   int imageID;
   bool isAdmin;
@@ -11,4 +11,15 @@ abstract class UserDTO {
       required this.address,
       required this.imageID,
       this.isAdmin = false});
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'surname': surname,
+      'username': username,
+      'password': password,
+      'address': address,
+      'imageID': imageID,
+      'isAdmin': isAdmin
+    };
+  }
 }
