@@ -10,9 +10,4 @@ class ImageDTO {
     };
   }
 
-  factory ImageDTO.fromMap(Map<String, dynamic> jsonMap) {
-    return ImageDTO(
-      image: jsonMap['image'].cast<int>(),
-    );
-  }
 }
