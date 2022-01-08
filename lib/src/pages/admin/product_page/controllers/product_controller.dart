@@ -12,7 +12,7 @@ import 'package:shopping_app/src/pages/shared/models/tag/tag_dto.dart';
 import 'package:shopping_app/src/pages/shared/models/tag/tag_model.dart';
 
 class AdminProductController extends GetxController {
-  final client = ProductClient();
+  final client = AdminProductClient();
   int productID = 0;
   RxBool editingMode = false.obs;
   RxBool isEnabled = false.obs;

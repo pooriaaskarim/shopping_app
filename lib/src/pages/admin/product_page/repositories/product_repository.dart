@@ -8,7 +8,7 @@ import 'package:shopping_app/src/pages/shared/models/tag/tag_dto.dart';
 import 'package:shopping_app/src/pages/shared/models/tag/tag_model.dart';
 import 'package:shopping_app/src/pages/shared/repository/main_repository.dart';
 
-class ProductClient extends Client {
+class AdminProductClient extends Client {
   Future<Either<Exception, ProductModel>> getProduct(int productID) async {
     Either<Exception, Response> zResponse =
         await dioGet(RepositoryUrls.productById(productID));

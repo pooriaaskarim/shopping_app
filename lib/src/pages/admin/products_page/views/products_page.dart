@@ -21,7 +21,7 @@ class AdminProductsPage extends StatelessWidget {
               padding: EdgeInsets.all(Utils.smallPadding),
               child: IconButton(
                   onPressed: () {
-                    Get.toNamed(RouteNames.searchPage);
+                    Get.toNamed(RouteNames.adminSearchPage);
                   },
                   icon: const Icon(Icons.search)),
             )
