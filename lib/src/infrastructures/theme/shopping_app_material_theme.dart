@@ -53,13 +53,13 @@ class MaterialTheme {
         cardTheme: const CardTheme(color: Color(0x4dc0d3d1)),
         dividerColor: const Color(0xffc25200),
         disabledColor: disabledColor,
-        elevatedButtonTheme: elevatedButtonThemeData(),
+        elevatedButtonTheme: _elevatedButtonThemeData(),
         indicatorColor: const Color(0xffc25200),
-        inputDecorationTheme: inputDecorationTheme(),
+        inputDecorationTheme: _inputDecorationTheme(),
         secondaryHeaderColor: const Color(0xffe3f2fd),
         primarySwatch: primaryColor,
         scaffoldBackgroundColor: backgroundColor,
-        textTheme: textTheme(),
+        textTheme: _textTheme(),
         // hintColor: const Color(0x8a000000),
         // fontFamily: fontFamily,
         // brightness: Brightness.dark,
@@ -76,7 +76,7 @@ class MaterialTheme {
         // dialogBackgroundColor: backgroundColor,
       );
 
-  ElevatedButtonThemeData elevatedButtonThemeData() {
+  ElevatedButtonThemeData _elevatedButtonThemeData() {
     return ElevatedButtonThemeData(
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(const Color(0xffFF9F4A)),
@@ -98,10 +98,11 @@ class MaterialTheme {
     );
   }
 
-  InputDecorationTheme inputDecorationTheme() {
+  InputDecorationTheme _inputDecorationTheme() {
     return InputDecorationTheme(
         labelStyle: const TextStyle(color: MaterialTheme.textColor),
         suffixIconColor: MaterialTheme.primaryColor[700],
+        prefixIconColor: MaterialTheme.primaryColor[700],
         focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(width: 2, color: MaterialTheme.editingColor),
         ),
@@ -119,7 +120,7 @@ class MaterialTheme {
                 BorderSide(width: 1, color: MaterialTheme.disabledColor)));
   }
 
-  TextTheme textTheme() {
+  TextTheme _textTheme() {
     return TextTheme(
       headline1: const TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
       headline2: const TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
