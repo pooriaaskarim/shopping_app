@@ -2,6 +2,7 @@ class UserModel {
   int id, imageID;
   String name, surname, username, password, address;
   bool isAdmin;
+  List favorites, cart;
 
   UserModel(
       {required this.id,
@@ -11,7 +12,9 @@ class UserModel {
       required this.password,
       required this.address,
       required this.imageID,
-      required this.isAdmin});
+      required this.isAdmin,
+      this.favorites = const <int>[],
+      this.cart = const <int>[]});
 
   @override
   String toString() {
@@ -23,7 +26,9 @@ class UserModel {
     username: $username,
     password: $password,
     address: $address,
-    isAdmin: $isAdmin}''';
+    isAdmin: $isAdmin,
+    favorites: $favorites,
+    cart: $cart}''';
   }
 
   factory UserModel.fromMap(Map<String, dynamic> jsonMap) {
@@ -35,6 +40,8 @@ class UserModel {
         password: jsonMap['password'],
         address: jsonMap['address'],
         imageID: jsonMap['imageID'],
-        isAdmin: jsonMap['isAdmin']);
+        isAdmin: jsonMap['isAdmin'],
+        favorites: jsonMap['favorites'].cast<int>(),
+        cart: jsonMap['cart'].cast<int>());
   }
 }

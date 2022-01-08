@@ -2,6 +2,7 @@ class UserDTO {
   String name, surname, username, password, address;
   int imageID;
   bool isAdmin;
+  List favorites, cart;
 
   UserDTO(
       {required this.name,
@@ -10,7 +11,10 @@ class UserDTO {
       required this.password,
       required this.address,
       required this.imageID,
-      this.isAdmin = false});
+      this.isAdmin = false,
+      this.favorites = const <int>[],
+      this.cart = const <int>[]});
+
   Map<String, dynamic> toMap() {
     return {
       'name': name,
@@ -19,7 +23,9 @@ class UserDTO {
       'password': password,
       'address': address,
       'imageID': imageID,
-      'isAdmin': isAdmin
+      'isAdmin': isAdmin,
+      'favorites': favorites,
+      'cart': cart
     };
   }
 }
