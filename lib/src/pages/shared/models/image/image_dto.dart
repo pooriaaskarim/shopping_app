@@ -9,5 +9,4 @@ class ImageDTO {
       'image': image,
     };
   }
-
 }
