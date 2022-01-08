@@ -48,6 +48,7 @@
 	"error_data": {
 		"wrong_credentials_try_again": "نام کاربری یا رمز عبور اشتباه است. مجددا تلاش کنید.",
 		"couldnt_retrieve_products": "خطای دریافت لیست محصولات",
+		"couldnt_retrieve_product_images": "خطای دریافت تصاویر محصولات",
 		"couldnt_update_product": "خطا در بروزرسانی محصول",
 		"connection_error": "خطای شبکه",
 		"retry": "نلاش مجدد",

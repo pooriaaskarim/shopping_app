@@ -60,6 +60,8 @@ class LocaleKeys {
       'error_data_wrong_credentials_try_again';
   static const error_data_couldnt_retrieve_products =
       'error_data_couldnt_retrieve_products';
+  static const error_data_couldnt_retrieve_product_images =
+      'error_data_couldnt_retrieve_product_images';
   static const error_data_couldnt_update_product =
       'error_data_couldnt_update_product';
   static const error_data_connection_error = 'error_data_connection_error';
@@ -132,6 +134,8 @@ class Locales {
     'error_data_wrong_credentials_try_again':
         'Wrong Username/Password. Try Again.',
     'error_data_couldnt_retrieve_products': 'Couldn\'t Retrieve Products',
+    'error_data_couldnt_retrieve_product_images':
+        'Couldn\'t Retrieve Products Images',
     'error_data_couldnt_update_product': 'Couldn\'t update product',
     'error_data_connection_error': 'Connection Error',
     'error_data_already_exists': 'Already Exists',
@@ -196,6 +200,7 @@ class Locales {
     'error_data_wrong_credentials_try_again':
         'نام کاربری یا رمز عبور اشتباه است. مجددا تلاش کنید.',
     'error_data_couldnt_retrieve_products': 'خطای دریافت لیست محصولات',
+    'error_data_couldnt_retrieve_product_images': 'خطای دریافت تصاویر محصولات',
     'error_data_couldnt_update_product': 'خطا در بروزرسانی محصول',
     'error_data_connection_error': 'خطای شبکه',
     'error_data_retry': 'نلاش مجدد',

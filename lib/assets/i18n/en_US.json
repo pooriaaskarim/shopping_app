@@ -48,6 +48,7 @@
   "error_data": {
     "wrong_credentials_try_again": "Wrong Username/Password. Try Again.",
     "couldnt_retrieve_products": "Couldn't Retrieve Products",
+    "couldnt_retrieve_product_images": "Couldn't Retrieve Products Images",
     "couldnt_update_product": "Couldn't update product",
     "connection_error": "Connection Error",
     "already_exists": "Already Exists",
