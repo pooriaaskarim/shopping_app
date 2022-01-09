@@ -1,8 +1,11 @@
+import 'package:shopping_app/src/pages/shared/models/user/cart_item_model.dart';
+
 class UserModel {
   int id, imageID;
   String name, surname, username, password, address;
   bool isAdmin;
-  List favorites, cart;
+  List<int> favorites;
+  List<CartItemModel> cart;
 
   UserModel(
       {required this.id,
@@ -14,7 +17,7 @@ class UserModel {
       required this.imageID,
       required this.isAdmin,
       this.favorites = const <int>[],
-      this.cart = const <int>[]});
+      this.cart = const <CartItemModel>[]});
 
   @override
   String toString() {
@@ -47,6 +50,10 @@ class UserModel {
   }
 
   factory UserModel.fromMap(Map<String, dynamic> jsonMap) {
+    List<CartItemModel> _cart = <CartItemModel>[];
+    for (var item in jsonMap['cart']) {
+      _cart.add(CartItemModel.fromMap(item));
+    }
     return UserModel(
         id: jsonMap['id'],
         name: jsonMap['name'],
@@ -57,6 +64,6 @@ class UserModel {
         imageID: jsonMap['imageID'],
         isAdmin: jsonMap['isAdmin'],
         favorites: jsonMap['favorites'].cast<int>(),
-        cart: jsonMap['cart'].cast<int>());
+        cart: _cart);
   }
 }

@@ -1,8 +1,11 @@
+import 'package:shopping_app/src/pages/shared/models/user/cart_item_model.dart';
+
 class UserDTO {
   String name, surname, username, password, address;
   int imageID;
   bool isAdmin;
-  List favorites, cart;
+  List favorites;
+  List<CartItemModel> cart;
 
   UserDTO(
       {required this.name,
@@ -13,7 +16,7 @@ class UserDTO {
       required this.imageID,
       this.isAdmin = false,
       this.favorites = const <int>[],
-      this.cart = const <int>[]});
+      this.cart = const <CartItemModel>[]});
 
   Map<String, dynamic> toMap() {
     return {
