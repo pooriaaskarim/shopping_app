@@ -44,6 +44,12 @@ class LocaleKeys {
   static const tr_data_product = 'tr_data_product';
   static const tr_data_products = 'tr_data_products';
   static const tr_data_products_in_stock = 'tr_data_products_in_stock';
+  static const tr_data_confirm_logout = 'tr_data_confirm_logout';
+  static const tr_data_are_you_sure_you_want_to_logout =
+      'tr_data_are_you_sure_you_want_to_logout';
+  static const tr_data_logout = 'tr_data_logout';
+  static const tr_data_favorites = 'tr_data_favorites';
+  static const tr_data_shopping_cart = 'tr_data_shopping_cart';
   static const tr_data_confirm_delete = 'tr_data_confirm_delete';
   static const tr_data_delete_product = 'tr_data_delete_product';
   static const tr_data_product_enabled = 'tr_data_product_enabled';
@@ -119,6 +125,11 @@ class Locales {
     'tr_data_product': 'Product',
     'tr_data_products': 'Products',
     'tr_data_products_in_stock': 'Products in stock',
+    'tr_data_confirm_logout': 'Confirm Logout',
+    'tr_data_are_you_sure_you_want_to_logout': 'Are You Sure You Wanna Logout?',
+    'tr_data_logout': 'Log Out',
+    'tr_data_favorites': 'Favorites',
+    'tr_data_shopping_cart': 'Shopping Cart',
     'tr_data_confirm_delete': 'Confirm Delete',
     'tr_data_delete_product': 'Delete Product?',
     'tr_data_product_enabled': 'Product Enabled',
@@ -185,6 +196,10 @@ class Locales {
     'tr_data_product': 'محصول',
     'tr_data_products': 'محصولات',
     'tr_data_products_in_stock': 'موجود در انبار',
+    'tr_data_confirm_logout': 'تایید خروج',
+    'tr_data_are_you_sure_you_want_to_logout':
+        'می‌خواهید از حساب کاربری خود خارج شوید؟',
+    'tr_data_logout': 'خروج',
     'tr_data_confirm_delete': 'تایید حذف',
     'tr_data_delete_product': 'محصول پاک شود؟',
     'tr_data_product_enabled': 'محصول فعال است',
