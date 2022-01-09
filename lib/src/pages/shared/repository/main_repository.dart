@@ -70,19 +70,18 @@ class Client {
       (response.statusCode! >= 200) && (response.statusCode! < 300);
 }
 
-void main() async {
-  var client = Client();
-  // Map<String, dynamic> m = {
-  //   'name': 'Pooria',
-  //   'surname': 'Askari',
-  //   'username': 'pooria',
-  //   'password': '1234',
-  //   'address': 'adasdas',
-  //   'isAdmin': true
-  // };
-  // await client.dioPost('http://127.0.0.1:3000/users', m);
-  await client.dioDelete('http://127.0.0.1:3000/product_images/4');
-  await client.dioDelete('http://127.0.0.1:3000/product_images/5');
-  await client.dioDelete('http://127.0.0.1:3000/product_images/6');
-  await client.dioDelete('http://127.0.0.1:3000/product_images/7');
-}
+// void main() async {
+//   var client = Client();
+//   // Map<String, dynamic> m = {
+//   //   'name': 'Pooria',
+//   //   'surname': 'Askari',
+//   //   'username': 'pooria',
+//   //   'password': '1234',
+//   //   'address': 'adasdas',
+//   //   'isAdmin': true
+//   // };
+//   // await client.dioPost('http://127.0.0.1:3000/users', m);
+//   // await client.dioDelete('http://127.0.0.1:3000/user_images/5');
+//   // await client.dioDelete('http://127.0.0.1:3000/users/2');
+//   // await client.dioDelete('http://127.0.0.1:3000/users/3');
+// }
