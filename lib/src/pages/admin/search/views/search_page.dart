@@ -189,7 +189,8 @@ class AdminSearchPage extends StatelessWidget {
             .where((imageModel) {
               return imageModel.id == controller.productsList[index].imageID;
             })
-            .toList()[0]
+            .toList()
+            .first
             .image,
         fit: BoxFit.fitWidth,
       ),

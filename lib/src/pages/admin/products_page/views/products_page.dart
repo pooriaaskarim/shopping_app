@@ -85,7 +85,7 @@ class AdminProductsPage extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.all(Utils.tinyPadding),
+                padding: EdgeInsets.all(Utils.mediumPadding),
                 child: SizedBox(
                   height: 200,
                   // width: 100,
@@ -156,7 +156,8 @@ class AdminProductsPage extends StatelessWidget {
                   return imageModel.id ==
                       controller.productsList[index].imageID;
                 })
-                .toList()[0]
+                .toList()
+                .first
                 .image,
             fit: BoxFit.fitWidth,
           ),
@@ -304,7 +305,7 @@ class AdminProductsPage extends StatelessWidget {
                                   children: [
                                     Padding(
                                       padding:
-                                          EdgeInsets.all(Utils.largePadding),
+                                          EdgeInsets.all(Utils.mediumPadding),
                                       child: Text(
                                         '${controller.user.value!.name} ${controller.user.value!.surname}',
                                         style: Theme.of(Get.context!)
@@ -314,17 +315,66 @@ class AdminProductsPage extends StatelessWidget {
                                     ),
                                     Padding(
                                       padding:
-                                          EdgeInsets.all(Utils.largePadding),
-                                      child: Text(
-                                        '@${controller.user.value!.username}',
-                                        style: Theme.of(Get.context!)
-                                            .textTheme
-                                            .headline6,
+                                          EdgeInsets.all(Utils.mediumPadding),
+                                      child: Row(
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                showDialog(
+                                                    context: Get.context!,
+                                                    builder: (context) =>
+                                                        AlertDialog(
+                                                          title: Text(LocaleKeys
+                                                              .tr_data_confirm_logout
+                                                              .tr),
+                                                          content: Text(LocaleKeys
+                                                              .tr_data_are_you_sure_you_want_to_logout
+                                                              .tr),
+                                                          actions: <Widget>[
+                                                            TextButton(
+                                                              autofocus: true,
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      context),
+                                                              child: Text(
+                                                                  LocaleKeys
+                                                                      .tr_data_no
+                                                                      .tr),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Get.toNamed(
+                                                                    RouteNames
+                                                                        .loginPage);
+                                                              },
+                                                              child: Text(
+                                                                  LocaleKeys
+                                                                      .tr_data_yes
+                                                                      .tr),
+                                                            ),
+                                                          ],
+                                                        ));
+                                              },
+                                              tooltip:
+                                                  LocaleKeys.tr_data_logout.tr,
+                                              icon: Icon(
+                                                Icons.exit_to_app,
+                                                color: MaterialTheme
+                                                    .primaryColor[700],
+                                              )),
+                                          Text(
+                                            '@${controller.user.value!.username}',
+                                            style: Theme.of(Get.context!)
+                                                .textTheme
+                                                .headline6,
+                                            textDirection: TextDirection.ltr,
+                                          )
+                                        ],
                                       ),
                                     ),
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           ))),
                   Padding(
