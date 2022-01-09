@@ -8,6 +8,12 @@ import 'package:shopping_app/src/pages/admin/products_page/views/products_page.d
 import 'package:shopping_app/src/pages/admin/search/commons/search_bindings.dart';
 import 'package:shopping_app/src/pages/admin/search/views/search_page.dart';
 import 'package:shopping_app/src/pages/splash_screen/splash_screen.dart';
+import 'package:shopping_app/src/pages/user/product_page/commons/product_bindings.dart';
+import 'package:shopping_app/src/pages/user/product_page/views/product_page.dart';
+import 'package:shopping_app/src/pages/user/products_page/commons/products_bindings.dart';
+import 'package:shopping_app/src/pages/user/products_page/views/products_page.dart';
+import 'package:shopping_app/src/pages/user/search/commons/search_bindings.dart';
+import 'package:shopping_app/src/pages/user/search/views/search_page.dart';
 import 'package:shopping_app/src/pages/user_management/login_page/commons/login_bindings.dart';
 import 'package:shopping_app/src/pages/user_management/login_page/views/login_page.dart';
 import 'package:shopping_app/src/pages/user_management/signup_page/commons/signup_bindings.dart';
@@ -48,14 +54,26 @@ class RoutePages {
       binding: AdminAddProductBinding(),
     ),
     GetPage(
+      name: RouteNames.adminSearchPage,
+      page: () => AdminSearchPage(),
+      binding: AdminSearchBinding(),
+    ),
+    GetPage(
       name: RouteNames.usersPage,
       page: () => UsersPage(),
       binding: UsersBinding(),
     ),
     GetPage(
-      name: RouteNames.searchPage,
-      page: () => AdminSearchPage(),
-      binding: AdminSearchBinding(),
-    ),
+        name: RouteNames.userProduct,
+        page: () => UserProductPage(),
+        binding: UserProductBinding()),
+    GetPage(
+        name: RouteNames.userProducts,
+        page: () => UserProductsPage(),
+        binding: UserProductsBinding()),
+    GetPage(
+        name: RouteNames.userSearchPage,
+        page: () => UserSearchPage(),
+        binding: UserSearchBinding())
   ];
 }
