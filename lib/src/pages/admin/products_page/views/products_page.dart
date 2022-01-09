@@ -23,6 +23,14 @@ class AdminProductsPage extends StatelessWidget {
                   onPressed: () {
                     Get.toNamed(RouteNames.adminSearchPage);
                   },
+                  icon: const Icon(Icons.sort)),
+            ),
+            Padding(
+              padding: EdgeInsets.all(Utils.smallPadding),
+              child: IconButton(
+                  onPressed: () {
+                    Get.toNamed(RouteNames.adminSearchPage);
+                  },
                   icon: const Icon(Icons.search)),
             )
           ],
