@@ -31,6 +31,21 @@ class UserModel {
     cart: $cart}''';
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'imageID': imageID,
+      'name': name,
+      'surname': surname,
+      'username': username,
+      'password': password,
+      'address': address,
+      'isAdmin': isAdmin,
+      'favorites': favorites,
+      'cart': cart,
+    };
+  }
+
   factory UserModel.fromMap(Map<String, dynamic> jsonMap) {
     return UserModel(
         id: jsonMap['id'],
