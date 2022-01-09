@@ -146,7 +146,6 @@ class AdminProductsController extends GetxController {
     userID = int.parse(Get.parameters['id']!);
     if (userID != 0) {
       user.value = await getUser(userID); //TODO: handle client error
-      // userImage.value = await getUserImage(user.value!.imageID);
     } //TODO: handle user retrieve error
     await initProducts();
     super.onInit();
