@@ -78,8 +78,8 @@ class SignUpController extends GetxController {
       throw Exception(exception);
     }, (response) async {
       ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-          content:
-              Text('User ${response.data['username']} successfully created.')));
+          content: Text(
+              '${LocaleKeys.tr_data_user.tr} ${response.data['username']} ${LocaleKeys.tr_data_successfully_created.tr}')));
       await Future.delayed(const Duration(seconds: 2));
       Get.back();
     });

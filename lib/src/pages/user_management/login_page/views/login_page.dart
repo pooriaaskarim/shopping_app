@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopping_app/shopping_app.dart';
+import 'package:shopping_app/src/pages/shared/widgets/toggle_locale.dart';
 import 'package:shopping_app/src/pages/shared/widgets/app_icon_wrapper.dart';
 import 'package:shopping_app/src/pages/user_management/login_page/controllers/login_page_controller.dart';
 
@@ -83,27 +84,6 @@ class LoginPage extends StatelessWidget {
                     validator: controller.validator,
                   )),
             ),
-            // Padding(
-            //   padding: EdgeInsets.all(Utils.largePadding),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.start,
-            //     children: [
-            //       Obx(() => Checkbox(
-            //           value: controller.keepSignedIn.value,
-            //           onChanged: (v) {
-            //             controller.keepSignedIn.value = v!;
-            //           })),
-            //       Padding(
-            //         padding: EdgeInsets.fromLTRB(Utils.mediumPadding, 0, 0, 0),
-            //         child: Text(
-            //           LocaleKeys.tr_data_keep_me_logged_in.tr,
-            //           style: const TextStyle(
-            //               color: MaterialTheme.textColor, fontSize: 16.0),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
             Padding(
               padding: EdgeInsets.all(Utils.largePadding),
               child: Row(
@@ -124,7 +104,6 @@ class LoginPage extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () {
-                  //TODO: handle controller close before navigating to signup page
                   Get.toNamed(RouteNames.signupPage);
                 },
                 child: Text.rich(
@@ -138,6 +117,7 @@ class LoginPage extends StatelessWidget {
                             style: const TextStyle(fontWeight: FontWeight.bold))
                       ]),
                 )),
+            toggleLocaleButton()
           ],
         ),
       ),

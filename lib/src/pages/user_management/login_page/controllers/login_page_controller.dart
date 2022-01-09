@@ -33,10 +33,14 @@ class LoginController extends GetxController {
           .contains(usernameController.text)) {
         UserModel user = users
             .where((element) => element.username == usernameController.text)
-            .toList()[0];
+            .toList()
+            .first;
         if (user.password == passwordController.text) {
           if (user.isAdmin) {
             Get.offAndToNamed(RouteNames.adminProducts,
+                parameters: {'id': '${user.id}'});
+          } else {
+            Get.offAndToNamed(RouteNames.userProducts,
                 parameters: {'id': '${user.id}'});
           }
         } else {
