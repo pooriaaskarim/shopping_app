@@ -61,32 +61,4 @@ class UserProductsClient extends Client {
       return Right(UserModel.fromMap(response.data));
     });
   }
-
-  Future<Either<Exception, Response>> deleteProduct(
-      ProductModel productModel) async {
-    Either<Exception, Response> zResponse =
-        await dioDelete(RepositoryUrls.productById(productModel.id));
-    return zResponse.fold((exception) {
-      return Left(Exception(exception));
-    }, (response) async {
-      return Right(response);
-    });
-  }
-
-  Future<Either<Exception, Response>> deleteProductImage(
-      ProductModel productModel) async {
-    Either<Exception, Response> zResponse =
-        await dioDelete(RepositoryUrls.productImageById(productModel.imageID));
-    return zResponse.fold((exception) {
-      return Left(Exception(exception));
-    }, (response) async {
-      return Right(response);
-    });
-  }
 }
-
-// void main() async {
-//   var client = SignUpClient();
-//   await client.getUsersList('http://127.0.0.1:3000/users');
-//   print(client.users);
-// }

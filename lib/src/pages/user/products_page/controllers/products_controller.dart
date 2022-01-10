@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shopping_app/generated/locales.g.dart';
 import 'package:shopping_app/src/pages/shared/models/image/image_model.dart';
 import 'package:shopping_app/src/pages/shared/models/product/product_model.dart';
+import 'package:shopping_app/src/pages/shared/models/user/cart_item_model.dart';
 import 'package:shopping_app/src/pages/shared/models/user/user_model.dart';
 import 'package:shopping_app/src/pages/user/products_page/repositories/products_repository.dart';
 
@@ -12,9 +13,7 @@ class UserProductsController extends GetxController {
   Rxn<ImageModel> userImage = Rxn<ImageModel>();
   Rxn<UserModel> user = Rxn<UserModel>();
   RxList<ProductModel> productsList = <ProductModel>[].obs;
-  RxList<ImageModel> productImagesList = <ImageModel>[].obs;
-  RxSet<int> userFavorites = <int>{}.obs;
-  RxSet<ProductModel> userShoppingCart = <ProductModel>{}.obs;
+  RxSet<CartItemModel> userShoppingCart = <CartItemModel>{}.obs;
   final client = UserProductsClient();
 
   Future getUser(int userID) async {
@@ -37,7 +36,6 @@ class UserProductsController extends GetxController {
   }
 
   Future<UserModel> updateUserFavorites() async {
-    user.value!.favorites = userFavorites.toList();
     Either<Exception, UserModel> zResponse =
         await client.updateUser(user.value!);
     return zResponse.fold((exception) {
@@ -60,15 +58,12 @@ class UserProductsController extends GetxController {
   }
 
 //Fetch products and product images from server
-  Future initProducts({bool refresh = false}) async {
+  Future initPage({bool refresh = false}) async {
     if (refresh) {
       productsList.clear();
-      productImagesList.clear();
+      user.value = await getUser(userID);
     }
     productsList.addAll(await getProductsList());
-    for (var product in productsList) {
-      productImagesList.add(await getProductImage(product));
-    }
   }
 
   Future<List<ProductModel>> getProductsList() async {
@@ -109,21 +104,14 @@ class UserProductsController extends GetxController {
   @override
   void onInit() async {
     userID = int.parse(Get.parameters['id']!);
-    if (userID != 0) {
-      user.value = await getUser(userID);
-      for (int productID in user.value!.favorites) {
-        if (productsList.map((e) => e.id).contains(productID)) {
-          userFavorites.add(productID);
-        } //todo What if admin deletes a product or its disabled!?
-      }
-    } //TODO: handle user retrieve error
-    await initProducts();
+    user.value = await getUser(userID);
+    await initPage();
     super.onInit();
   }
 
   @override
   void refresh() async {
-    await initProducts(refresh: true);
+    await initPage(refresh: true);
     super.refresh();
   }
 }

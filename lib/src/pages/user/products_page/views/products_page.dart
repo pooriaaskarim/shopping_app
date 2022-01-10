@@ -5,7 +5,7 @@ import 'package:shopping_app/src/pages/shared/models/image/image_model.dart';
 import 'package:shopping_app/src/pages/shared/widgets/app_icon_wrapper.dart';
 import 'package:shopping_app/src/pages/shared/widgets/custom_circular_progress_indicator.dart';
 import 'package:shopping_app/src/pages/shared/widgets/shopping_button.dart';
-import 'package:shopping_app/src/pages/user/products_page/controllers/products_page_controller.dart';
+import 'package:shopping_app/src/pages/user/products_page/controllers/products_controller.dart';
 
 class UserProductsPage extends StatelessWidget {
   UserProductsPage({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class UserProductsPage extends StatelessWidget {
         appBar: _userProductsAppBar(_scaffoldKey),
         drawer: _userProductsDrawer(),
         body: RefreshIndicator(
-          onRefresh: () => controller.initProducts(refresh: true),
+          onRefresh: () => controller.initPage(refresh: true),
           child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Obx(() => Padding(
@@ -101,7 +101,8 @@ class UserProductsPage extends StatelessWidget {
         ),
         IconButton(
           onPressed: () {
-            Get.toNamed(RouteNames.userSearchPage);
+            Get.toNamed(RouteNames.userSearchPage,
+                parameters: {'userID': '${controller.user.value!.id}'});
           },
           icon: const Icon(Icons.search),
           padding: EdgeInsets.zero,
@@ -112,8 +113,10 @@ class UserProductsPage extends StatelessWidget {
 
   Widget _productCard(int index) {
     return GestureDetector(
-      onTap: () => Get.toNamed(RouteNames.userProduct,
-          parameters: {'productID': '${controller.productsList[index].id}'}),
+      onTap: () => Get.toNamed(RouteNames.userProduct, parameters: {
+        'productID': '${controller.productsList[index].id}',
+        'userID': "${controller.user.value!.id}"
+      }),
       child: Container(
         width: MediaQuery.of(Get.context!).size.width,
         padding: EdgeInsets.all(Utils.mediumPadding),
@@ -182,7 +185,11 @@ class UserProductsPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      shoppingButton()
+                      (controller.productsList[index].inStock > 0)
+                          ? shoppingButton(
+                              user: controller.user.value!,
+                              product: controller.productsList[index])
+                          : const SizedBox.shrink()
                     ],
                   ),
                 ),
@@ -226,28 +233,28 @@ class UserProductsPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(50),
                       color: MaterialTheme.primaryColor[300]!.withOpacity(.5)),
                   child: ValueBuilder<bool?>(
-                    initialValue: controller.userFavorites
+                    initialValue: controller.user.value!.favorites
                         .contains(controller.productsList[index].id),
                     builder: (snapshot, updater) {
                       return IconButton(
                           padding: EdgeInsets.zero,
                           onPressed: () {
                             if (snapshot!) {
-                              controller.userFavorites
+                              controller.user.value!.favorites
                                   .remove(controller.productsList[index].id);
                               controller.updateUserFavorites();
-                              updater(controller.userFavorites
+                              updater(controller.user.value!.favorites
                                   .contains(controller.productsList[index].id));
                             } else {
-                              controller.userFavorites
+                              controller.user.value!.favorites
                                   .add(controller.productsList[index].id);
                               controller.updateUserFavorites();
-                              updater(controller.userFavorites
+                              updater(controller.user.value!.favorites
                                   .contains(controller.productsList[index].id));
                             }
                           },
                           icon: Icon(
-                            (controller.userFavorites
+                            (controller.user.value!.favorites
                                     .contains(controller.productsList[index].id)
                                 ? Icons.favorite
                                 : Icons.favorite_border),
@@ -354,7 +361,7 @@ class UserProductsPage extends StatelessWidget {
                                                             ),
                                                             TextButton(
                                                               onPressed: () {
-                                                                Get.toNamed(
+                                                                Get.offAndToNamed(
                                                                     RouteNames
                                                                         .loginPage);
                                                               },
@@ -402,9 +409,7 @@ class UserProductsPage extends StatelessWidget {
                           title: Text(
                             LocaleKeys.tr_data_add_product.tr,
                           ),
-                          onTap: () {
-                            // Get.toNamed(RouteNames.adminAddProduct);
-                          }),
+                          onTap: () {}),
                     ),
                   ),
                   Padding(
@@ -418,7 +423,7 @@ class UserProductsPage extends StatelessWidget {
                             Icons.shopping_cart,
                             color: MaterialTheme.primaryColor[700],
                           ),
-                          title: Text(LocaleKeys.tr_data_users.tr),
+                          title: Text(LocaleKeys.tr_data_shopping_cart.tr),
                           onTap: () {
                             // Get.toNamed(RouteNames.usersPage);
                           }),
