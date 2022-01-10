@@ -351,7 +351,7 @@ class AdminProductsPage extends StatelessWidget {
                                                             ),
                                                             TextButton(
                                                               onPressed: () {
-                                                                Get.toNamed(
+                                                                Get.offAndToNamed(
                                                                     RouteNames
                                                                         .loginPage);
                                                               },
