@@ -96,8 +96,10 @@ class UserSearchPage extends StatelessWidget {
 
   Widget _productCard(int index) {
     return GestureDetector(
-      onTap: () => Get.toNamed(RouteNames.userProduct,
-          parameters: {'productID': '${controller.productsList[index].id}'}),
+      onTap: () => Get.toNamed(RouteNames.userProduct, parameters: {
+        'productID': '${controller.productsList[index].id}',
+        'userID': '${controller.userID}'
+      }),
       child: Container(
         width: MediaQuery.of(Get.context!).size.width,
         padding: EdgeInsets.all(Utils.mediumPadding),

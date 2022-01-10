@@ -7,10 +7,10 @@ import 'package:shopping_app/src/pages/shared/models/product/product_model.dart'
 import 'package:shopping_app/src/pages/user/search/repositories/search_repository.dart';
 
 class UserSearchController extends GetxController {
+  int userID = 0;
   final client = UserSearchClient();
   final searchbarController = TextEditingController();
   RxList<ProductModel> productsList = <ProductModel>[].obs;
-  RxList<ImageModel> productImagesList = <ImageModel>[].obs;
   Future<List<ProductModel>> getProductsList() async {
     Either<Exception, List<ProductModel>> zResponse =
         await client.getProductsList();
@@ -46,26 +46,10 @@ class UserSearchController extends GetxController {
     });
   }
 
-  Future initProducts({bool refresh = false}) async {
-    if (refresh) {
-      productsList.clear();
-      productImagesList.clear();
-    }
-    productsList.addAll(await getProductsList());
-    for (var product in productsList) {
-      productImagesList.add(await getProductImage(product));
-    }
-  }
-
   @override
   void onInit() async {
-    await initProducts();
+    userID = int.parse(Get.parameters['userID']!);
+    productsList.value = await getProductsList();
     super.onInit();
-  }
-
-  @override
-  void refresh() async {
-    await initProducts(refresh: true);
-    super.refresh();
   }
 }
