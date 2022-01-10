@@ -22,9 +22,6 @@ class UsersPage extends StatelessWidget {
           child: const Icon(Icons.refresh),
           onPressed: () {
             controller.refresh();
-            // SizedBox(
-            //     height: MediaQuery.of(context).size.height,
-            //     child: getListView());
           }),
     );
   }
@@ -33,30 +30,40 @@ class UsersPage extends StatelessWidget {
     return ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: controller.users.value.list.length,
+      itemCount: controller.users.length,
       itemBuilder: (context, index) {
-        return Card(
-          // color: MaterialTheme.enabledCardColor,
-          child: ListTile(
-            selectedTileColor: MaterialTheme.enabledCardColor,
-            leading: Padding(
-              padding: EdgeInsets.all(Utils.largePadding),
-              child: const Icon(
-                Icons.person,
-                size: 30.0,
+        return Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: Utils.mediumPadding, vertical: Utils.tinyPadding),
+          child: Container(
+            padding: EdgeInsets.all(Utils.largePadding),
+            decoration: BoxDecoration(
+                color: MaterialTheme.enabledCardColor,
+                borderRadius: BorderRadius.circular(13)),
+            child: ListTile(
+              leading: Column(
+                children: [
+                  Icon(
+                    Icons.person,
+                    size: 30.0,
+                    color: (controller.users[index].isAdmin)
+                        ? MaterialTheme.primaryColor[500]
+                        : MaterialTheme.secondaryColor[500],
+                  ),
+                  Text(
+                    '@${controller.users[index].username}',
+                    textDirection: TextDirection.ltr,
+                  )
+                ],
               ),
-            ),
-            title: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Text(
-                '${controller.users.value.list[index].name} ${controller.users.value.list[index].surname}',
-                // style: const TextStyle(
-                //     color: Color(0xffc4dae7), fontWeight: FontWeight.bold),
+              title: Padding(
+                padding: EdgeInsets.symmetric(vertical: Utils.largePadding),
+                child: Text(
+                  '${controller.users[index].name} ${controller.users[index].surname}',
+                ),
               ),
+              onTap: () {},
             ),
-            onTap: () {
-              Get.toNamed('/user/${controller.users.value.list[index].id}');
-            },
           ),
         );
       },
