@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:get_cli/get_cli.dart
 
-// ignore_for_file: lines_longer_than_80_chars, constant_identifier_names
+// ignore_for_file: lines_longer_than_80_chars
 // ignore: avoid_classes_with_only_static_members
 class AppTranslation {
   static Map<String, Map<String, String>> translations = {
@@ -199,6 +199,7 @@ class Locales {
     'tr_data_confirm_logout': 'تایید خروج',
     'tr_data_are_you_sure_you_want_to_logout':
         'می‌خواهید از حساب کاربری خود خارج شوید؟',
+    'tr_data_shopping_cart': 'سبد خرید',
     'tr_data_logout': 'خروج',
     'tr_data_confirm_delete': 'تایید حذف',
     'tr_data_delete_product': 'محصول پاک شود؟',
